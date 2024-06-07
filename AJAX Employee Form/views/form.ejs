@@ -1,0 +1,1117 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><Ajax-form></Ajax-form></title>
+</head>
+<style>
+    input.invalid {
+  background-color: #ffdddd;
+}
+    .tab
+    {
+        display: none;
+    }
+
+button {
+  background-color: #04AA6D;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+}
+
+#prevBtn {
+  background-color: #bbbbbb;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #04AA6D;
+}
+</style>
+<body>
+    <form
+     method="post" autocomplete="on" id="Form1">
+        <div class="tab">
+        <fieldset id="basic_details">
+            <table>
+                <legend>Basic Details</legend>
+                <tr>
+                    <td>
+                        <label for="firstname"> First name </label>
+                        <input type="text" id="firstname" name="fname" placeholder="Ritesh" class="required" val
+                            tabindex="1"><br>
+                        <span class="error" id="error-firstname"></span><br><br>
+                    </td>
+
+                    <td>
+                        <label for="lastname"> Last name </label>
+                        <input type="text" id="lastname" name="lname" placeholder="Jaiswal" class="required"
+                            tabindex="2"><br>
+                        <span class="error" id="error-lastname"></span><br><br>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email"> Email </label>
+                        <input type="text" id="email" name="email" placeholder="riteshjaiswala@gmail.com"
+                            class="required" tabindex="3"><br>
+                        <span class="error" id="error-email"></span><br><br>
+                    </td>
+                    <td>
+                        <label for="Designation"> Designation </label>
+                        <input type="text" id="designation" name="designation" placeholder="Senior Developer"
+                            class="required" tabindex="4"><br><br>
+                        <span class="error" id="error-designation"></span><br><br>
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Address1"> Address1 </label>
+                        <input type="text" id="address1" name="address1" placeholder="E-306 Bhagvat Greens"
+                            class="required" tabindex="5"><br><br>
+                        <span class="error" id="error-address1"></span><br><br>
+                    </td>
+                    <td>
+                        <label for="Address2"> Address2 </label>
+                        <input type="text" id="address2" name="address2" placeholder="Narol Ahmedabad" class="required"
+                            tabindex="6">
+                        <span class="error" id="error-address2"></span><br><br>
+                        <br><br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="Phone"> Phone Number </label>
+                        <input type="text" id="phone" name="phone" placeholder="7573060549" tabindex="7"
+                            class="required"><br>
+                        <span class="error" id="error-phone"></span><br><br>
+                    </td>
+                    <td>
+                        <label for="City"> City </label>
+                        <input type="text" id="city" name="city" placeholder="Ahmedabad" class="required"
+                            tabindex="8"><br>
+                        <span class="error" id="error-city"></span><br><br>
+                    </td>
+                </tr>
+                <tr rowspan="2">
+                    <td>
+                        Gender
+                        <input type="radio" id="male" name="gender"  value="Male" tabindex="9">
+                        <label for="male">Male</label>
+                         <input type="radio" id="female" name="gender" value="Female" tabindex="9.5">
+                         <label for="female">Female</label><br>
+                        <span class="error" id="error-gender"></span><br>
+                    </td>
+                    <td>
+                        <label for="states">States:</label>
+                        <select name="states" id="state">
+                           
+                            <optgroup label="Favourite States">
+
+                                <option value="Gujarat">1-Gujarat</option>
+                                <option value="Maharastra">1-Maharastra</option>
+                            </optgroup>
+                            <optgroup label="Others">
+                                <option value="Tamil Nadu">2-Tamil Nadu</option>
+                                <option value="Telangana">2-Telangana</option>
+                            </optgroup>
+                        </select> <br>
+                        
+                        <br><br>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <label for="Zipcode"> Zip code </label>
+                        <input type="text" id="zipcode" name="zipcode" class="required"><br>
+                        <span id="error-zipcode" class="error"></span><br><br>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Relationship status
+                        <select name="relationship_status" id="relationship_status" tabindex="12">
+                            
+                            <option value="Unmarried">1-Single</option>
+                            <option value="Married">2-Married</option>
+
+                        </select><br>
+                        <span id="relationError" class="error-relationship_status"></span>
+                    </td>
+                    <td>
+                        <label for="dateofbirth"> Date of Birth</label>
+                        <input type="text" id="dateofbirth" name="dateofbirth" placeholder="YYYY-MM-DD" class="required"
+                            tabindex="13"><br>
+                        <span id="error-dateofbirth" class="error"></span>
+                    </td>
+                </tr>
+
+            </table>
+        </fieldset>
+        </div>
+
+        <div class="tab">
+            <fieldset>
+                <legend>Educational Details</legend>
+        
+    
+                <input type="button" onclick="add_Rows()" value="+"></button>
+    
+                   
+                   <input type="button" onclick="subtractRows()" value="-"></button>
+    
+                   <table id="education_table" class="table">
+                    <span id = "education_error" class="error"></span>
+                    
+                    <tbody id="education_body">
+            
+                    </tbody>
+                </table>
+               
+            </fieldset>
+        </div>
+        <div class="tab">
+            <fieldset>
+                <legend>Work Experience</legend>     
+                
+              
+          
+                <input type="button" onclick="experience_addRow()" value="+"></button>   
+                   
+                <input type="button" onclick="subtractRows()" value="-"></button>
+    
+                <table id="workExperienceTable" class="table">
+                 <span id = "experience_error" class="error"></span>
+                 
+                 <tbody id="workExperienceBody">
+         
+                 </tbody>
+             </table>
+            </fieldset>
+        </div>
+        <div class="tab">
+            <fieldset>
+                <legend>Language Known</legend>
+                <div><span id="error_language" class="error"></span></div>
+                <div><span id="check_language" class="error"></span></div>
+                <tr>
+                    <td>
+                        <input type="checkbox" id="hindi_checkbox" name="hindi_checkbox" value="Hindi" tabindex="40">
+                        <label for="hindi_checkbox">Hindi</label>
+                        <input type="checkbox" id="hindi_read" name="hindi_read" value="YES" tabindex="41">
+                        <label for="hindi_read">Read</label>
+                        <input type="checkbox" id="hindi_write" name="hindi_write" value="YES" tabindex="41.1">
+                        <label for="hindi_write">Write</label>
+                        <input type="checkbox" id="hindi_speak" name="hindi_speak" value="YES" tabindex="41.2">
+                        <label for="hindi_speak">speak</label><br>
+        
+                        <input type="checkbox" id="english_checkbox" name="english_checkbox" value="English" tabindex="42">
+                        <label for="english_checkbox">English</label>
+                        <input type="checkbox" id="english_read" name="english_read" value="YES"tabindex="43">
+                        <label for="english_read">Read</label>
+                        <input type="checkbox" id="english_write" name="english_write" value="YES" tabindex="44">
+                        <label for="english_write">Write</label>
+                        <input type="checkbox" id="english_speak" name="english_speak" value="YES" tabindex="45">
+                        <label for="english_speak">speak</label><br>
+        
+        
+                        <input type="checkbox" id="gujarati_checkbox" name="gujarati_checkbox" value="Gujarati" tabindex="46">
+                        <label for="gujarati_checkbox">Gujarati</label>
+                        <input type="checkbox" id="gujarati_read" name="gujarati_read" value="YES" tabindex="47">
+                        <label for="gujarati_read">Read</label>
+                        <input type="checkbox" id="gujarati_write" name="gujarati_write" value="YES" tabindex="48">
+                        <label for="gujarati_write">Write</label>
+                        <input type="checkbox" id="gujarati_speak" name="gujarati_speak" value="YES" tabindex="49">
+                        <label for="gujarati_speak">speak</label><br>
+        
+        
+                    </td>
+        
+        
+                </tr>
+            </fieldset>
+            </div>
+            <div class="tab">
+                <fieldset>
+                    <legend>
+                        Technologies You Know
+                    </legend>
+                    <div><span id="check_technology" class="error"></span></div>
+                    <div><span id="check_technology_level" class="error"></span></div>
+                    <input type="checkbox" id="php_checkbox" name="php_checkbox" value="PHP" tabindex="50">
+                    <label for="php_checkbox">PHP</label>
+            
+                    <input type="radio" id="php_begineer" name="php_technology" value="Beginer" tabindex="51">
+                    <label for="php_begineer">Begineer</label>
+                    <input type="radio" id="php_mediator" name="php_technology" value="Mideator" tabindex="52">
+                    <label for="php_mediator">Mediator</label>
+                    <input type="radio" id="php_expert" name="php_technology" value="Expert"tabindex="53">
+                    <label for="php_expert">Expert</label> <br>
+            
+                    <input type="checkbox" id="mysql_checkbox" name="mysql_checkbox" value="Mysql" tabindex="54">
+                    <label for="mysql_checkbox">Mysql</label>
+            
+                    <input type="radio" id="mysql_begineer" name="mysql_technology" value="Beginer" tabindex="55">
+                    <label for="mysql_begineer">Begineer</label>
+                    <input type="radio" id="mysql_mediator" name="mysql_technology" value="Mideator" tabindex="56">
+                    <label for="mysql_mediator">Mediator</label>
+                    <input type="radio" id="mysql_expert" name="mysql_technology" value="Expert" tabindex="57">
+                    <label for="mysql_expert">Expert</label> <br>
+            
+                    <input type="checkbox" id="laravel_checkbox" name="laravel_checkbox" value="Laravel" tabindex="58">
+                    <label for="laravel_checkbox">Laravel</label>
+            
+                    <input type="radio" id="laravel_begineer" name="laravel_technology" value="Beginer" tabindex="59">
+                    <label for="laravel_begineer">Begineer</label>
+                    <input type="radio" id="laravel_mediator" name="laravel_technology" value="Mideator" tabindex="60">
+                    <label for="laravel_mediator">Mediator</label>
+                    <input type="radio" id="laravel_expert" name="laravel_technology" value="Expert" tabindex="61">
+                    <label for="laravel_expert">Expert</label> <br>
+            
+            
+                    <input type="checkbox" id="oracle_checkbox" name="oracle_checkbox" value="Oracle" tabindex="62">
+                    <label for="oracle_checkbox">Oracle</label>
+            
+                    <input type="radio" id="oracel_beginner" name="oracle_technology" value="Beginer" tabindex="63">
+                    <label for="oracel_beginner">Begineer</label>
+                    <input type="radio" id="oracel_mediator" name="oracle_technology" value="Mideator" tabindex="64">
+                    <label for="oracel_mediator">Mediator</label>
+                    <input type="radio" id="oracel_expert" name="oracle_technology" value="Expert" tabindex="65">
+                    <label for="oracel_expert">Expert</label>
+            
+                </fieldset>
+            </div>
+        
+        <div class="tab">
+            <fieldset>
+                <legend>Reference Table</legend>
+        
+                <input type="button" onclick="addReferencerows()" value="+"></button>
+    
+                   
+                <input type="button" onclick="subtractRows()" value="-"></button>
+    
+                <table id="referenceTable" class="table">
+                 <span id = "reference_error" class="error"></span>
+                 
+                 <tbody id="referenceBody">
+         
+                 </tbody>
+             </table>
+            </fieldset>
+        </div>
+
+        <div class="tab">
+           
+        
+            <table style="border: 5;">
+                <tr>
+                    <td rowspan="3">
+                        <span class="error" id="error-preferred_location"></span>
+                        <label for="preferred_location" style="text-align: center; display:block">Preferred location</label>
+                        <textarea id="preferred_location" name="preferred_location" rows="10" cols="20" tabindex="72" 
+                            placeholder="item1 
+                             item2 
+                             item3"></textarea><br>
+                            
+    
+                    </td>
+                    <td>
+                        <label for="notice_period">Notice Period</label>
+                        <input type="text" id="notice_period" name="notice_period"  tabindex="73">
+                        <span class="error" id="error-notice_period"></span>
+    
+                    </td>
+                    <td>
+                        <p>Department</p>
+                        <select name="department" id="department" tabindex="74">
+                            <option value="Development">Development</option>
+                            <option value="Designing">Designing</option>
+                            <option value="Marketing" >Marketing</option>
+                    </td>
+                </tr>
+                <tr>
+                    
+                    <td><label for="expexted_ctc">Expected CTC</label>
+                        <input type="text" id="expexted_ctc" name="expexted_ctc" tabindex="75">
+                    </td>
+                    <span class="error" id="error-expexted_ctc"></span>
+                           
+                </tr>
+                
+                <tr>               
+                    
+                    <td> <label for = "current_ctc">Current CTC</label>
+                        <input type = "text" id="current_ctc"  name = "current_ctc" tabindex="76" ><br></td>
+                        <span class="error" id="error-current_ctc"></span>
+                </tr>          
+                    
+
+
+                    </table>
+                    <input type="button" value="submit" onclick="SubmitForm()">
+        </div>
+    
+  
+        <div style="overflow:auto;">
+            <div style="float:right;">
+              <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+              <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+            </div>
+          </div>
+          <div style="text-align:center;margin-top:40px;">
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+            <span class="step"></span>
+          </div>
+    
+        </form>
+       
+
+        <script>
+            let hindi_checkbox=document.getElementById("hindi_checkbox")
+            let hindi_read=document.getElementById("hindi_read")
+            let hindi_write=document.getElementById("hindi_write")
+            let hindi_speak=document.getElementById("hindi_speak")
+
+            let english_checkbox=document.getElementById("english_checkbox")
+            let english_read=document.getElementById("english_read")
+            let english_write=document.getElementById("english_write")
+            let english_speak=document.getElementById("english_speak")
+
+            let gujarati_checkbox=document.getElementById("gujarati_checkbox")
+            let gujarati_read=document.getElementById("gujarati_read")
+            let gujarati_write=document.getElementById("gujarati_write")
+            let gujarati_speak=document.getElementById("gujarati_speak")
+
+
+            let php_checkbox = document.getElementById("php_checkbox")
+            let mysql_checkbox=document.getElementById("mysql_checkbox")
+            let laravel_checkbox=document.getElementById("laravel_checkbox")
+            let oracle_checkbox=document.getElementById("oracle_checkbox")
+            
+            let php_begineer=document.getElementById("php_begineer")
+            let php_mediator=document.getElementById("php_mediator")
+            let php_expert=document.getElementById("php_expert")
+
+            let mysql_begineer=document.getElementById("mysql_begineer")
+            let mysql_mediator=document.getElementById("mysql_mediator")
+            let mysql_expert=document.getElementById("mysql_expert")
+
+            let laravel_begineer=document.getElementById("laravel_begineer")
+            let laravel_mediator=document.getElementById("laravel_mediator")
+            let laravel_expert=document.getElementById("laravel_expert")
+
+            let oracel_beginner=document.getElementById("oracel_beginner")
+            let oracel_mediator=document.getElementById("oracel_mediator")
+            let oracel_expert=document.getElementById("oracel_expert")
+
+
+
+
+
+
+            var currentTab = 0; // Current tab is set to be the first tab (0)
+            showTab(currentTab); // Display the current tab
+
+
+            function showTab(n) {
+            // This function will display the specified tab of the form...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            //... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+                document.getElementById("nextBtn").style.display="inline"
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+                document.getElementById("nextBtn").style.display="inline"
+            }
+            if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").style.display="none"
+                document.getElementById("prevBtn").style.display="inline"
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+            }
+            //... and run a function that will display the correct step indicator:
+            fixStepIndicator(n)
+            }
+
+
+            function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Exit the function if any field in the current tab is invalid:
+            if (n == 1 && !validateForm()) return false;
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            // Increase or decrease the current tab by 1:
+            currentTab = currentTab + n;
+            // if you have reached the end of the form...
+           
+            // Otherwise, display the correct tab:
+            showTab(currentTab);
+            }
+            async function SubmitForm()
+            {
+                alert('duiif')
+                var form = document.getElementById("Form1")
+                let details = new FormData(form)
+
+                const params= new URLSearchParams(details)
+                const response = await new Response(params).text();
+                console.log(response)
+                let data = await fetch("http://localhost:8092/save",{
+                        method:"POST",
+                        headers: {
+                            'Content-type' : 'application/x-www-form-urlencoded'
+                        },
+
+                        body : response
+                })
+                // console.log(params)
+                console.log(data)
+            }
+            function validateForm() {
+                let errors = document.querySelectorAll('.error')
+
+                for (let err of errors) {
+                    err.innerHTML = ""
+                }
+
+                let eleList = document.querySelectorAll('.required')
+                console.log(eleList)
+
+                for (let i = 0; i < eleList.length; i++) {
+                    if (eleList[i].value == "") {
+                        // console.log('error', eleList[i].id)
+                        document.getElementById('error-' + eleList[i].id).innerHTML = eleList[i].id + " can't be none"
+                        return false
+                    }
+                }
+
+                
+            // This function deals with validation of the form fields
+            var x, y, i, valid = true;
+            x = document.getElementsByClassName("tab");
+            console.log(x)
+            y = x[currentTab].getElementsByTagName("input");
+            // A loop that checks every input field in the current tab:
+            if(currentTab==0){
+            for (i = 0; i < y.length; i++) {
+                console.log(y.length)
+                if(i==0){                                
+                     if(!/^[a-zA-Z\s-]+$/.test(y[i].value))
+                    {
+                        y[i].className += " invalid";
+                        document.getElementById("error-firstname").textContent="PLease Enter valid First Name"
+                        // and set the current valid status to false
+                        valid = false;
+                    }                    
+                }
+                if(i==1)
+                {
+                    if(!/^[a-zA-Z\s-]+$/.test(y[i].value))
+                    {
+                        y[i].className += " invalid";
+                        document.getElementById("error-lastname").textContent="PLease Enter valid Last Name"
+                        // and set the current valid status to false
+                        valid = false;
+                    }
+                }
+                if(i==2)
+                {
+                    if(!/^\S+@\S+\.\S+$/.test(y[i].value))
+                    {
+                        y[i].className += " invalid";
+                        document.getElementById("error-email").textContent="PLease Enter valid Email"
+                        // and set the current valid status to false
+                        valid = false;
+                    }
+                }
+                if(i==3)
+                {
+                    if(!/^[a-zA-Z\s-]+$/.test(y[i].value))
+                    {
+                        y[i].className += " invalid";
+                        document.getElementById("error-designation").textContent="PLease Enter valid Designation"
+                        // and set the current valid status to false
+                        valid = false;
+                    }
+                }          
+             
+
+                if(i==6)
+                {
+                    if(!/^\d{10}$/.test(y[i].value)){
+                    document.getElementById("phone").focus()
+                    document.getElementById("error-phone").textContent = "Please enter a valid phone"
+                    return false;
+                    }
+                }
+
+                if(i==7)
+                {
+                    if(!/^[a-zA-Z\s-]+$/.test(y[i].value)){
+                    document.getElementById("city").focus()
+                    document.getElementById("error-city").textContent = "Please enter a valid city"
+                    return false;
+                    }
+                }
+
+                
+             
+              
+
+                 if(i==10)
+                 {
+                    console.log(i,y[i].value)
+                    if(!/^\d{6}(-\d{5})?$/.test(y[i].value)){
+                     
+                    document.getElementById("zipcode").focus()
+                    document.getElementById("error-zipcode").textContent = "Please enter a valid zipcode"
+                    return false;
+                    }
+                 }
+                 if(i==11)
+                 {
+                    console.log(i,y[i].value)
+                    if(!/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(y[i].value)){
+                     
+                    document.getElementById("dateofbirth").focus()
+                    document.getElementById("error-dateofbirth").textContent = "Please enter a valid Date of birth"
+                    return false;
+                    }
+                 }
+               
+                
+            }
+        }
+
+         if(currentTab==1)
+         {
+            
+            var rows=document.querySelectorAll("#education_body tr")
+            console.log("My rows ",rows)
+
+            for(var i=0;i< rows.length;i++)
+            {
+                var inputs = rows[i].getElementsByClassName("education")
+                var filled = false;
+                for(var j=0;j<inputs.length;j++)
+                {
+                    if(inputs[j].value.trim()==="")
+                    {
+                        filled=true;
+                        break;
+                    }
+                    if(j==0)
+                    {
+                         if(!/^(19\d{2}|20[0-9]{2})$/.test(inputs[j].value.trim()))
+                        {
+                            document.getElementById("education_error").textContent="Please provide a valid passing year"
+                            return false
+                        }
+                    }
+                    if(j==1)
+                    {
+                        if(!/^100(\.0{1,2})?$|^(\d{1,2}(\.\d{1,2})?)$/.test(inputs[j].value.trim()))
+                        {
+                            document.getElementById("education_error").textContent="Please provide a valid percentage"
+                            return false
+                        }
+                    }
+                   
+                }
+                if(filled)
+                {
+                    for(var k=0;k<inputs.length;k++)
+                    {
+                        if(inputs[k].value.trim()==="")
+                        {
+                             document.getElementById("education_error").textContent="Please fill all the values"
+                             return false;
+                        }
+                    }
+                }
+            }
+         }
+         if(currentTab==2)
+         {
+            var rows=document.querySelectorAll("#workExperienceBody tr")
+            // console.log("My rows ",rows)
+
+            for(var i=0;i< rows.length;i++)
+            {
+                var inputs = rows[i].getElementsByClassName("expereience")
+                var filled = false;
+                for(var j=0;j<inputs.length;j++)
+                {
+                    
+                    if(inputs[j].value.trim()==="")
+                    {
+                        filled=true;
+                        break;
+                    }
+                    if(j==0)
+                    {
+                         if(!/^[a-zA-Z\s-]+$/.test(inputs[j].value.trim()))
+                        {
+                            document.getElementById("experience_error").textContent="Please provide a valid company name"
+                            return false
+                        }
+                    }
+                    if(j==1)
+                    {
+                        if(!/^[a-zA-Z\s-]+$/.test(inputs[j].value.trim()))
+                        {
+                            document.getElementById("experience_error").textContent="Please provide a valid designation"
+                            return false
+                        }
+                    }
+                    if(j==2)
+                    {
+                        if (!/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(inputs[j].value.trim())) {
+                            document.getElementById("experience_error").textContent="Please provide a valid date"
+                            return false
+                        }
+                    }
+                    if(j==3)
+                    {
+                        if (!/([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/.test(inputs[j].value.trim())) {
+                            document.getElementById("experience_error").textContent="Please provide a valid date"
+                            return false
+                        }
+                    }
+                }
+                if(filled)
+                {
+                    for(var k=0;k<inputs.length;k++)
+                    {
+                        if(inputs[k].value.trim()==="")
+                        {
+                             document.getElementById("experience_error").textContent="Please fill all the values"
+                             return false;
+                        }
+                    }
+                }
+            }
+         }
+         if(currentTab==3)
+         {
+            let language_selected=[hindi_checkbox,english_checkbox,gujarati_checkbox]
+            let language_field=[[hindi_read,hindi_write,hindi_speak],[english_read,english_write,english_speak],[gujarati_read,gujarati_write,gujarati_speak]]
+
+            // var language_checked=false;
+            let hindi_field_checked=false;
+            let english_field_checked=false;
+            let gujarati_field_checked=false;
+            var field_checked=[hindi_field_checked,english_field_checked,gujarati_field_checked];
+            for(let i=0;i<language_selected.length;i++)
+            {
+                for(let j=0;j<language_field[i].length;j++)
+                {
+                    if(language_field[i][j].checked && !language_selected[i].checked)
+                    {
+                        document.getElementById("check_language").innerHTML="please select the language first"
+                        return false;
+                    }
+                }
+            }
+            for(let i=0;i<language_selected.length;i++)
+            {
+               
+                    if((language_selected[i].checked))
+                    {
+                        // console.log("inside 1st if")
+                        // language_checked=true;
+                        // console.log("faef",language_field.length)
+                        for(let j=0;j<language_field[i].length;j++)
+                        {
+                            console.log("inside 2nd if")
+                            if(language_field[i][j].checked)
+                            {
+                                console.log("Inside 3rd if")
+                                field_checked[i]=true;
+                                break;
+                            }
+                          
+                        }
+                    }
+                
+            }
+            
+
+            for(let i=0;i<language_selected.length;i++)
+            {
+                if(language_selected[i].checked && field_checked[i]===false)
+                {
+                    console.log("final check")
+                    document.getElementById("error_language").innerHTML= 'please select atleast one field for the checkbox selected'
+                    return false;
+                }                
+               
+            }
+
+         }
+         if(currentTab ==4)
+         {
+            let technology_selected=[php_checkbox,mysql_checkbox,laravel_checkbox,oracle_checkbox];
+            let technology_options=[[php_begineer,php_mediator,php_expert],[mysql_begineer,mysql_mediator,mysql_expert],
+                                    [laravel_begineer,laravel_mediator,laravel_expert],
+                                    [oracel_beginner,oracel_mediator,oracel_expert]];
+            let php_field_checked=false;
+            let mysql_field_checked=false;
+            let laravel_field_checked=false;
+            let oracel_field_checked=false;
+            var technology_field_checked=[php_field_checked,mysql_field_checked,laravel_field_checked,oracel_field_checked];                       
+
+            for(let i=0;i<technology_selected.length;i++)
+            {
+                for(let j=0;j<technology_options[i].length;j++)
+                {
+                    if(technology_options[i][j].checked && !technology_selected[i].checked)
+                    {
+                        document.getElementById("check_technology").innerHTML="please select the technology first"
+                        return false;
+                    }
+                }
+            }
+            for(let i=0;i<technology_selected.length;i++)
+            {
+               
+                    if((technology_selected[i].checked))
+                    {
+                        // console.log("inside 1st if")
+                        // language_checked=true;
+                        // console.log("faef",language_field.length)
+                        for(let j=0;j<technology_options[i].length;j++)
+                        {
+                            // console.log("inside 2nd if")
+                            if(technology_options[i][j].checked)
+                            {
+                                // console.log("Inside 3rd if")
+                                technology_field_checked[i]=true;
+                                break;
+                            }
+                          
+                        }
+                    }
+                
+            }
+            
+
+            for(let i=0;i<technology_selected.length;i++)
+            {
+                if(technology_selected[i].checked && technology_field_checked[i]===false)
+                {
+                    // console.log("final check")
+                    document.getElementById("check_technology_level").innerHTML= 'please select atleast one field for the checkbox selected'
+                    return false;
+                }                
+               
+            }
+
+         }
+         if(currentTab == 5)
+         {
+            var rows1=document.querySelectorAll("#referenceBody tr")
+            // console.log("My rows1 ",rows1)
+
+            for(var i=0;i< rows1.length;i++)
+            {
+                var inputs = rows1[i].getElementsByClassName("reference")
+                var filled = false;
+                for(var j=0;j<inputs.length;j++)
+                {
+                    
+                    if(inputs[j].value.trim()==="")
+                    {
+                        filled=true;
+                        break;
+                    }
+                    if(j==0)
+                    {
+                         if(!/^[a-zA-Z\s-]+$/.test(inputs[j].value.trim()))
+                        {
+                            document.getElementById("reference_error").textContent="Please provide a valid Name"
+                            return false
+                        }
+                    }
+                    if(j==1)
+                    {
+                        if(!/^\d{10}$/.test(inputs[j].value.trim()))
+                        {
+                            document.getElementById("reference_error").textContent="Please provide a Number"
+                            return false
+                        }
+                    }
+                    if(j==2)
+                    {
+                        if (!/^[a-zA-Z\s-]+$/.test(inputs[j].value.trim())) {
+                            document.getElementById("reference_error").textContent="Please provide a Relation Name"
+                            return false
+                        }
+                    }
+                  
+                }
+                if(filled)
+                {
+                    for(var k=0;k<inputs.length;k++)
+                    {
+                        if(inputs[k].value.trim()==="")
+                        {
+                             document.getElementById("reference_error").textContent="Please fill all the values"
+                             return false;
+                        }
+                    }
+                }
+            }
+         }
+         
+            // If the valid status is true, mark the step as finished and valid:
+            if (valid) {
+               
+                document.getElementsByClassName("step")[currentTab].className += " finish";
+            }
+            return valid; // return the valid status
+            }
+
+
+            function fixStepIndicator(n) {
+            // This function removes the "active" class of all steps...
+            var i, x = document.getElementsByClassName("step");
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+            }
+            //... and adds the "active" class on the current step:
+            console.log("listen my words",x[n])
+            x[n].className += " active";
+            }
+
+        const education_items = document.getElementById("education_body")
+        function add_Rows()
+        {
+        //   console.log("hELLO");
+          var row = education_items.insertRow();
+          row.setAttribute("id","dynamic_row")
+          var cell1=document.createElement('td')
+          var label1 = document.createElement('label')
+          label1.setAttribute("class","label")
+          label1.setAttribute("for","board_name")
+          label1.textContent='Name of Board'
+          cell1.appendChild(label1)
+          var select = document.createElement('select')
+          select.setAttribute("id","board_name");
+          select.setAttribute("name","board_name")
+
+        var board_names=['GSEB','CBSC',"Bachelor_Degree","Master_Degree","PHD"]
+        board_names.forEach(function(board_name)
+        {
+            var option = document.createElement('option')
+            option.value=board_name;
+            option.textContent=board_name;
+            select.appendChild(option)
+        })
+        cell1.appendChild(select)       
+ 
+         
+          var label2 = document.createElement('label')
+          label2.setAttribute("class","label")
+          label2.setAttribute("for","passing_year")
+          label2.textContent='Passing Year'
+          cell1.appendChild(label2)
+
+          var input2= document.createElement('input')
+            input2.setAttribute("id","passing_year")
+          input2.setAttribute("name","passing_year")
+          input2.setAttribute("class","education")
+          input2.setAttribute("type","text")
+
+          cell1.appendChild(input2)
+
+          var label3 = document.createElement('label')
+          label3.setAttribute("class","label")
+          label3.setAttribute("for","percentage")
+          label3.textContent='Percentage'
+          cell1.appendChild(label3)
+
+          var input3= document.createElement('input')
+            input3.setAttribute("id","percentage")
+          input3.setAttribute("name","percentage")
+          input3.setAttribute("class","education")
+          input3.setAttribute("type","text")
+
+          cell1.appendChild(input3)
+
+          row.appendChild(cell1)        
+                        
+        }
+        function subtractRows()
+        {
+            var row = document.getElementById("dynamic_row");
+            row.parentNode.deleteRow(-1);
+            console.log(row.parentNode);
+            console.log("Hello2")
+        }
+        const postItems = document.getElementById("workExperienceBody")
+               
+               function experience_addRow()
+               {
+               //   console.log("hELLO");
+                 var row = postItems.insertRow();
+                 row.setAttribute("id","dynamic_row")
+                 var cell1=document.createElement('td')
+                 var label1 = document.createElement('label')
+                 label1.setAttribute("class","label")
+                 label1.setAttribute("for","company_name")
+                 label1.textContent='Company Name'
+                 cell1.appendChild(label1)
+           
+                 var input= document.createElement('input')
+                   input.setAttribute("id","company_name")
+                 input.setAttribute("name","company_name")
+                 input.setAttribute("class","expereience")
+                 input.setAttribute("type","text")
+                 cell1.appendChild(input)
+                 row.appendChild(cell1)
+       
+       
+       
+                
+                 var label2 = document.createElement('label')
+                 label2.setAttribute("class","label")
+                 label2.setAttribute("for","designation1")
+                 label2.textContent='Designation'
+                 cell1.appendChild(label2)
+       
+                 var input2= document.createElement('input')
+                   input2.setAttribute("id","designation1")
+                 input2.setAttribute("name","designation1")
+                 input2.setAttribute("class","expereience")
+                 input2.setAttribute("type","text")
+       
+                 cell1.appendChild(input2)
+       
+                 var label_31 = document.createElement('label')
+                 label_31.setAttribute("class","label")
+                 label_31.setAttribute("for","from")
+                 label_31.textContent='From'
+                 cell1.appendChild(label_31)
+       
+                 var input_31= document.createElement('input')
+                   input_31.setAttribute("id","from")
+                 input_31.setAttribute("name","from")
+                 input_31.setAttribute("class","expereience")
+                 input_31.setAttribute("type","text")
+       
+                 cell1.appendChild(input_31)
+       
+                 var label_32 = document.createElement('label')
+                 label_32.setAttribute("class","label")
+                 label_32.setAttribute("for","to")
+                 label_32.textContent='To'
+                 cell1.appendChild(label_32)
+       
+                 var input_32= document.createElement('input')
+                   input_32.setAttribute("id","to")
+                 input_32.setAttribute("name","to")
+                 input_32.setAttribute("class","expereience")
+                 input_32.setAttribute("type","text")
+       
+                 cell1.appendChild(input_32)
+                 row.appendChild(cell1)
+                
+                               
+               }
+        
+
+           
+
+                       //Reference Table
+        const reference_items = document.getElementById("referenceBody")
+               
+               function addReferencerows()
+               {
+                //  console.log("hELLO");
+                 var row = reference_items.insertRow();
+                 row.setAttribute("id","dynamic_row")
+                 var cell1=document.createElement('td')
+                 var label1 = document.createElement('label')
+                 label1.setAttribute("class","label")
+                 label1.setAttribute("for","reference_name")
+                 label1.textContent='Name'
+                 cell1.appendChild(label1)
+             
+               
+                 var input= document.createElement('input')
+                   input.setAttribute("id","reference_name")
+                 input.setAttribute("name","reference_name")
+                 input.setAttribute("class","reference")
+                 input.setAttribute("type","text")
+                 cell1.appendChild(input)
+                 row.appendChild(cell1)
+       
+       
+       
+                
+                 var label2 = document.createElement('label')
+                 label2.setAttribute("class","label")
+                 label2.setAttribute("for","contact_no")
+                 label2.textContent='Contact No'
+                 cell1.appendChild(label2)
+       
+                 var input2= document.createElement('input')
+                   input2.setAttribute("id","contact_no")
+                 input2.setAttribute("name","contact_no")
+                 input2.setAttribute("class","reference")
+                 input2.setAttribute("type","text")
+       
+                 cell1.appendChild(input2)
+       
+                 var label_31 = document.createElement('label')
+                 label_31.setAttribute("class","label")
+                 label_31.setAttribute("for","reference_relation")
+                 label_31.textContent='Reference Relation'
+                 cell1.appendChild(label_31)
+       
+                 var input_31= document.createElement('input')
+                   input_31.setAttribute("id","reference_relation")
+                 input_31.setAttribute("name","reference_relation")
+                 input_31.setAttribute("class","reference")
+                 input_31.setAttribute("type","text")
+       
+                 cell1.appendChild(input_31)   
+       
+                 row.appendChild(cell1)        
+                               
+               }
+        </script>
+
+
+        
+
+      
+
+</body>
+</html>
