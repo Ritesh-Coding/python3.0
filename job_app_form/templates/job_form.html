@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} Job Application Form {% endblock %}
+
+{% block body %}
+<h1>Employee Registration Form</h1>
+{% csrf_token %}
+<fieldset>
+    {{basicDetailsForm.as_p}}
+</fieldset>
+<fieldset>
+    {{educationDetailsForm.as_p}}
+</fieldset>
+<fieldset>
+    {{workExperienceForm.as_p}}
+</fieldset>
+<fieldset>
+    {{languageForm.as_p}}
+</fieldset>
+<fieldset>
+    {{technologyForm.as_p}}
+</fieldset>
+<fieldset>
+    {{referenceForm.as_p}}
+</fieldset>
+<fieldset>
+    {{preferenceForm.as_p}}
+</fieldset>
+
+{% endblock %}
