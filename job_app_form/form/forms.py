@@ -84,6 +84,7 @@ class BasicDetailsForm(forms.ModelForm):
             'address1',
             'address2',
             'email',
+            'cities',
             'phone',
             'gender',
             'states',
@@ -92,7 +93,8 @@ class BasicDetailsForm(forms.ModelForm):
             'date_of_birth'
         ]
         widgets={
-        'date_of_birth' : forms.SelectDateWidget()
+        'date_of_birth' : forms.SelectDateWidget(),
+        'gender': forms.RadioSelect()
         }
 
 class EducationDetailsForm(forms.ModelForm):
@@ -111,12 +113,12 @@ class WorkExperienceForm(forms.ModelForm):
         fields = [
             'company_name',
             'designation',
-            '_from',
-            '_to'
+            'from1',
+            'to1'
         ]
         widgets={
-        '_from' : forms.SelectDateWidget(),
-         '_to' : forms.SelectDateWidget()
+        'from1' : forms.SelectDateWidget(),
+         'to1' : forms.SelectDateWidget()
         }
 class LanguagesForm(forms.ModelForm):
     class Meta:
@@ -135,7 +137,7 @@ class TechnologiesForm(forms.ModelForm):
             'level_of_expertise'
         ]
         widgets = {
-            'level_of_expertise' : forms.RadioSelect(),
+            'level_of_expertise' : forms.RadioSelect(attrs={'class': 'form-check-inline'}),
             }
 class ReferenceForm(forms.ModelForm):
     class Meta:

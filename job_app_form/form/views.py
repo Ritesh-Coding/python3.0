@@ -19,7 +19,7 @@ def EmployeeForm(request):
 
     if request.method == "POST":
         
-        saveBasicDetails = saveBasicDetails(request.POST)
+        saveBasicDetails = BasicDetailsForm(request.POST)
         saveEducationDetails = EducationDetailsForm(request.POST)
         saveWorkExperience = WorkExperienceForm(request.POST)
         saveLanguagesKnown = LanguagesForm(request.POST)

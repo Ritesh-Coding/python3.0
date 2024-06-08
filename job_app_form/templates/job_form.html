@@ -3,27 +3,476 @@
 
 {% block body %}
 <h1>Employee Registration Form</h1>
+<form
+     method="post" autocomplete="on" id="Form1">
 {% csrf_token %}
-<fieldset>
-    {{basicDetailsForm.as_p}}
-</fieldset>
-<fieldset>
-    {{educationDetailsForm.as_p}}
-</fieldset>
-<fieldset>
-    {{workExperienceForm.as_p}}
-</fieldset>
-<fieldset>
-    {{languageForm.as_p}}
-</fieldset>
-<fieldset>
-    {{technologyForm.as_p}}
-</fieldset>
-<fieldset>
-    {{referenceForm.as_p}}
-</fieldset>
-<fieldset>
-    {{preferenceForm.as_p}}
-</fieldset>
 
+<div class="stepIndicator">
+    <div class="step">Basic Details</div>
+    <div class="step">education Details</div>
+    <span class="step">Work Experience</span>
+    <span class="step">Languages Known</span>
+    <span class="step">Technologies You Know</span>
+    <span class="step">Reference</span>
+    <span class="step">Preference</span>
+  </div>
+    <div class="tab">
+    <fieldset id="basic_details">
+        <table>
+            <legend>Basic Details</legend>
+            <tr>
+                <td>
+                    
+                    <label for="firstname"> First name </label>
+                    {{basicDetailsForm.firstName}}
+                </td>
+
+                <td>
+                    <label for="lastname"> Last name </label>
+                    {{basicDetailsForm.lastName}}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="email"> Email </label>
+                    {{basicDetailsForm.email}}
+                </td>
+                <td>
+                    <label for="Designation"> Designation </label>
+                    {{basicDetailsForm.designation}}
+                </td>
+
+            </tr>
+            <tr>
+                <td>
+                    <label for="Address1"> Address1 </label>
+                    {{basicDetailsForm.address1}}
+                </td>
+                <td>
+                    <label for="Address2"> Address2 </label>
+                    {{basicDetailsForm.address2}}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <label for="Phone"> Phone Number </label>
+                    {{basicDetailsForm.phone}}
+                </td>
+                <td>
+                    <label for="City"> City </label>
+                    {{basicDetailsForm.cities}}  
+                </td>
+            </tr>
+            <tr rowspan="2">
+                <td>
+                    Gender
+                    {{basicDetailsForm.gender}}  
+                </td>
+                <td>
+                    <label for="states">States:</label>
+                    {{basicDetailsForm.states}}
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <label for="Zipcode"> Zip code </label>
+                    {{basicDetailsForm.zip}}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    Relationship status
+                    {{basicDetailsForm.relationship}}
+                </td>
+                <td>
+                    <label for="dateofbirth"> Date of Birth</label>
+                    {{basicDetailsForm.date_of_birth}}
+                </td>
+            </tr>
+
+        </table>
+    </fieldset>
+</div>
+
+<div class="tab">
+    <fieldset>
+        <legend>Educational Details</legend>
+        <input type="button" onclick="add_Rows()" value="+"></button>         
+        <input type="button" onclick="subtractRows()" value="-"></button>
+        <table id="education_table" class="table">
+            <tbody id="education_body">
+                <tr id="dynamic_row">
+                    <td>
+                        <label class="label" for="board_name">Name of Board</label>
+                        {{educationDetailsForm.name_of_board}}
+                        <label class="label" for="passing_year">Passing Year</label>
+                        {{educationDetailsForm.passing_year}}
+                        <label class="label" for="percentage">Percentage</label>
+                        {{educationDetailsForm.percentage}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+    </div>
+
+<div class="tab">
+    <fieldset>
+        <legend>Work Experience</legend>
+        <input type="button" onclick="experience_addRow()" value="+"></button>                   
+        <input type="button" onclick="subtractRows1()" value="-"></button>
+        <table id="workExperienceTable" class="table">
+            <tbody id="workExperienceBody">
+                <tr id="dynamic_row_Experience">
+                    <td>
+                        <label class="label" for="company_name">Company Name</label>
+                        {{workExperienceForm.company_name}}
+                        <label class="label" for="designation1">Designation</label>
+                        {{workExperienceForm.designation}}
+                        <label class="label" for="from1">From</label>
+                        {{workExperienceForm.from1}}
+                        <label class="label" for="to1">To</label>
+                        {{workExperienceForm.to1}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </fieldset>
+</div>
+
+<div class="tab">
+    <fieldset>
+        <legend>Language Known</legend>
+        <tr>
+            
+            <td>                
+                {{languageForm.language_known}}
+                <label for="hindi_read">Read</label>
+                {{languageForm.can_read}}
+                <label for="hindi_write">Write</label>
+                {{languageForm.can_write}}
+                <label for="hindi_speak">speak</label>
+                {{languageForm.can_speak}}
+            </td> <br>
+            <td>                
+                {{languageForm.language_known}}
+                <label for="hindi_read">Read</label>
+                {{languageForm.can_read}}
+                <label for="hindi_write">Write</label>
+                {{languageForm.can_write}}
+                <label for="hindi_speak">speak</label>
+                {{languageForm.can_speak}}
+            </td> <br>
+            <td>                
+                {{languageForm.language_known}}
+                <label for="hindi_read">Read</label>
+                {{languageForm.can_read}}
+                <label for="hindi_write">Write</label>
+                {{languageForm.can_write}}
+                <label for="hindi_speak">speak</label>
+                {{languageForm.can_speak}}
+            </td>
+           
+        </tr>
+</fieldset>
+</div>
+
+<div class="tab">
+    <fieldset>
+        <legend>
+            Technologies You Know
+        </legend>
+        <div>
+            <tr>
+                <td>
+                    {{technologyForm.technologies_known}}
+                    {{technologyForm.level_of_expertise}}
+                </td>
+                <br>
+                <td>
+                    {{technologyForm.technologies_known}}
+                    {{technologyForm.level_of_expertise}}
+                </td>
+                <br>
+                <td>
+                    {{technologyForm.technologies_known}}
+                    {{technologyForm.level_of_expertise}}
+                </td>
+            </tr>
+            
+        </div>
+        </fieldset>
+    </div>
+
+<div class="tab">
+    <fieldset>
+        <legend>Reference Table</legend>
+        <input type="button" onclick="addReferencerows()" value="+"></button>                  
+        <input type="button" onclick="subtractRows2()" value="-"></button>
+        <table id="referenceTable" class="table">
+            <tbody id="referenceBody">
+                <tr id="dynamic_row">
+                    <td>
+                        
+                        <label for ="reference_name">Name</label>
+                        {{referenceForm.name}}
+                        <label for ="contact_no">Contact No</label>
+                        {{referenceForm.contact_no}}
+                        <label for ="reference_relation">Reference Relation</label>
+                        {{referenceForm.Relation}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        </fieldset>
+</div>
+
+<div class="tab">
+           
+    <fieldset>
+        <legend>Preferance</legend>
+        <table style="border: 5;">
+            <tr>
+                <td rowspan="3">
+                    <label for="preferred_location" style="text-align: center; display:block">Preferred location</label>
+                    {{preferenceForm.preference_location}}
+                </td>
+                <td>
+                    <label for="notice_period">Notice Period</label>
+                    {{preferenceForm.notice_period}}
+                </td>
+                <td>
+                    <p>Department</p>
+                    {{preferenceForm.department}}
+                </td>
+            </tr>
+            <tr>
+                
+                <td><label for="expexted_ctc">Expected CTC</label>
+                    {{preferenceForm.expected_ctc}}
+                </td>
+            </tr>
+            <tr>               
+                
+                <td> <label for = "current_ctc">Current CTC</label>
+                    {{preferenceForm.current_ctc}}
+                    </td>
+                </tr>                
+            </table>
+        </fieldset>
+        <input type="button" value="submit" id="submitButton" onclick="SubmitForm()">
+</div>
+
+ <div style="overflow:auto;">
+            
+              <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+              <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+           
+          </div>
+</form>
+<script>
+     var currentTab = 0; // Current tab is set to be the first tab (0)
+     showTab(currentTab); // Display the current tab
+     function showTab(n) {
+            // This function will display the specified tab of the form...
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+            //... and fix the Previous/Next buttons:
+            if (n == 0) {
+                document.getElementById("prevBtn").style.display = "none";
+                document.getElementById("nextBtn").style.display="inline"
+            } else {
+                document.getElementById("prevBtn").style.display = "inline";
+                document.getElementById("nextBtn").style.display="inline"
+            }
+            if (n == (x.length - 1)) {
+                document.getElementById("nextBtn").style.display="none"
+                document.getElementById("prevBtn").style.display="inline"
+            } else {
+                document.getElementById("nextBtn").innerHTML = "Next";
+            }
+            //... and run a function that will display the correct step indicator:
+            fixStepIndicator(n)
+            }
+
+            function nextPrev(n) {
+            // This function will figure out which tab to display
+            var x = document.getElementsByClassName("tab");
+            // Hide the current tab:
+            x[currentTab].style.display = "none";
+            currentTab = currentTab + n;
+            showTab(currentTab);
+            }
+            function fixStepIndicator(n) {
+            // This function removes the "active" class of all steps...
+            var i, x = document.getElementsByClassName("step");
+            for (i = 0; i < x.length; i++) {
+                x[i].className = x[i].className.replace(" active", "");
+            }
+            //... and adds the "active" class on the current step:
+            x[n].className += " active";
+            
+            }
+            const education_items = document.getElementById("education_body")
+        function add_Rows()
+        {
+        //   console.log("hELLO");
+          var row = education_items.insertRow();
+          row.setAttribute("id","dynamic_row")
+          var cell1=document.createElement('td')
+          var label1 = document.createElement('label')
+          label1.setAttribute("class","label")
+          label1.setAttribute("for","board_name")
+          label1.textContent='Name of Board'
+          cell1.appendChild(label1)
+          var select = document.createElement('select')
+          select.setAttribute("id","board_name");
+          select.setAttribute("name","board_name")
+
+        var board_names=['GSEB','CBSC',"Bachelor_Degree","Master_Degree","PHD"]
+        board_names.forEach(function(board_name)
+        {
+            var option = document.createElement('option')
+            option.value=board_name;
+            option.textContent=board_name;
+            select.appendChild(option)
+        })
+        cell1.appendChild(select)       
+ 
+         
+          var label2 = document.createElement('label')
+          label2.setAttribute("class","label")
+          label2.setAttribute("for","passing_year")
+          label2.textContent='Passing Year'
+          cell1.appendChild(label2)
+
+          var input2= document.createElement('input')
+            input2.setAttribute("id","passing_year")
+          input2.setAttribute("name","passing_year")
+          input2.setAttribute("class","education")
+          input2.setAttribute("type","number")
+
+          cell1.appendChild(input2)
+
+          var label3 = document.createElement('label')
+          label3.setAttribute("class","label")
+          label3.setAttribute("for","percentage")
+          label3.textContent='Percentage'
+          cell1.appendChild(label3)
+
+          var input3= document.createElement('input')
+            input3.setAttribute("id","percentage")
+          input3.setAttribute("name","percentage")
+          input3.setAttribute("class","education")
+          input3.setAttribute("type","number")
+
+          cell1.appendChild(input3)
+
+          row.appendChild(cell1)        
+                        
+        }
+        function subtractRows()
+        {
+            var table = document.getElementById("education_table");
+            var rowCount = table.rows.length;
+            
+            // Ensure there's at least one row other than the header
+            if (rowCount > 1) {
+                table.deleteRow(rowCount - 1); // Delete the last row
+            }
+        }
+        const experienceTable = document.getElementById("workExperienceBody")
+               
+               function experience_addRow()
+               {
+               //   console.log("hELLO");
+                let experienceItem = document.querySelector('#dynamic_row_Experience');
+                let clonedMenu = experienceItem.cloneNode(true);
+                clonedMenu.id = 'dynamic_row_Experience';
+                
+                document.getElementById("workExperienceBody").appendChild(clonedMenu);
+                
+                               
+               }
+               const reference_items = document.getElementById("referenceBody")
+               
+               function addReferencerows()
+               {
+               
+                 var row = reference_items.insertRow();
+                 row.setAttribute("id","dynamic_row")
+                 var cell1=document.createElement('td')
+                 var label1 = document.createElement('label')
+                 label1.setAttribute("class","label")
+                 label1.setAttribute("for","reference_name")
+                 label1.textContent='Name'
+                 cell1.appendChild(label1)
+             
+               
+                 var input= document.createElement('input')
+                   input.setAttribute("id","reference_name")
+                 input.setAttribute("name","reference_name")
+                 input.setAttribute("class","reference")
+                 input.setAttribute("type","text")
+                 cell1.appendChild(input)
+                 row.appendChild(cell1)
+       
+       
+       
+                
+                 var label2 = document.createElement('label')
+                 label2.setAttribute("class","label")
+                 label2.setAttribute("for","contact_no")
+                 label2.textContent='Contact No'
+                 cell1.appendChild(label2)
+       
+                 var input2= document.createElement('input')
+                   input2.setAttribute("id","contact_no")
+                 input2.setAttribute("name","contact_no")
+                 input2.setAttribute("class","reference")
+                 input2.setAttribute("type","text")
+       
+                 cell1.appendChild(input2)
+       
+                 var label_31 = document.createElement('label')
+                 label_31.setAttribute("class","label")
+                 label_31.setAttribute("for","reference_relation")
+                 label_31.textContent='Reference Relation'
+                 cell1.appendChild(label_31)
+       
+                 var input_31= document.createElement('input')
+                   input_31.setAttribute("id","reference_relation")
+                 input_31.setAttribute("name","reference_relation")
+                 input_31.setAttribute("class","reference")
+                 input_31.setAttribute("type","text")
+       
+                 cell1.appendChild(input_31)   
+       
+                 row.appendChild(cell1)        
+                               
+               }
+        function subtractRows1()
+        {
+            var table = document.getElementById("workExperienceTable");
+            var rowCount = table.rows.length;
+            
+            // Ensure there's at least one row other than the header
+            if (rowCount > 1) {
+                table.deleteRow(rowCount - 1); // Delete the last row
+            }
+        }
+        function subtractRows2()
+        {
+            var table = document.getElementById("referenceTable");
+            var rowCount = table.rows.length;
+            
+            // Ensure there's at least one row other than the header
+            if (rowCount > 0) {
+                table.deleteRow(rowCount - 1); // Delete the last row
+            }
+        }
+</script>
 {% endblock %}

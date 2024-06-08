@@ -69,6 +69,7 @@ class BasicDetails(models.Model):
      email =  models.EmailField(null=False,blank=False)
      phone =  models.CharField(blank=False,null=False,validators=[validate_phone])
      gender = models.CharField(max_length=6,choices=GENDER_CHOICES,blank=False,null=False)
+     cities = models.CharField(max_length=15,blank=False,null=False,default='Ahmedabad')
      states = models.CharField(max_length=10,blank=False,null=False)
      zip = models.CharField(blank=False,null=False,validators=[validate_zip])
      relationship = models.CharField(max_length=8,choices=RELATIONSHIP_STATUS,blank=False,null=False)
@@ -77,17 +78,23 @@ class BasicDetails(models.Model):
      
      def __str__(self):
          return self.firstName
-     
+BOARD_NAME = (
+    ("GSEB","GSEB"),
+    ("CBSC","CBSC"),
+    ("Bachelor_Degree","Bachelor_Degree"),
+    ("Master_Degree","Master_Degree"),
+    ("PHD","PHD"),
+
+)
+
 class SSCHSCDETAILS(models.Model):
     employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
-    name_of_board = models.CharField(max_length=15,null=False,blank=False,
-                                  validators=[
-                                      RegexValidator(
-                 regex=r'^[a-zA-Z\s-]+$',
-                 message="Enter a valid Board name.",
-                 code="invalid_registration",
-                     ),
-                 ])
+   
+    name_of_board = models.CharField(choices=BOARD_NAME,
+        max_length=15,
+        default = None,        
+        )
+    
     passing_year = models.IntegerField(blank=False,null=False, validators=[
                                       RegexValidator(
                  regex=r'^(19\d{2}|20[0-9]{2})$',
@@ -115,6 +122,7 @@ class WorkExperience(models.Model):
                  code="invalid_registration",
                      ),
                  ])
+    
     designation = models.CharField(max_length=15,null=False,blank=False,
                                   validators=[
                                       RegexValidator(
@@ -123,9 +131,9 @@ class WorkExperience(models.Model):
                  code="invalid_registration",
                      ),
                  ])
-    _from = models.DateField(null=False,blank=False,
+    from1 = models.DateField(null=False,blank=False,
                                )
-    _to = models.DateField(null=False,blank=False,
+    to1 = models.DateField(null=False,blank=False,
                                     )
     
     def __str__(self):

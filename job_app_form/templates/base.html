@@ -10,6 +10,99 @@
     <link rel="stylesheet" type="text/css" , href="{% static 'css/style.css' %}"/>
    
 </head>
+<style>
+.maincontainer
+    {
+        max-width: 1088px;
+        margin: 0 auto;
+    }
+    input.invalid {
+  background-color: #ffdddd;
+}
+    .tab
+    {
+        display: none;
+    }
+    #prevBtn
+    {
+        float: left;
+    }
+    #nextBtn
+    {
+        float: right;
+    }
+    .submitButton
+    {
+        display: flex;
+    }
+    .submitButton > #submitButton
+    {
+       
+        align-items: center;
+        margin-left: 600px;
+        text-align: center;
+        background-color:#04AA6D ;
+        padding: 10px 20px;
+        font-size: 17px;
+        cursor: pointer;
+        font-family: 'Courier New', Courier, monospace;
+        border-radius: 10px;
+    }
+
+button {
+  background-color: #04AA6D;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+}
+
+#prevBtn {
+  background-color: #bbbbbb;
+}
+h2
+{
+    text-align: center;
+}
+h3{
+    text-align: center;
+    color: #04AA6D;
+}
+.step {
+  height: 25px;
+  width: 150px;
+  margin-top: 10px;
+
+  text-align: center;
+
+  background-color: rgb(26, 225, 26);
+  border: none;  
+    
+  display: inline-block;
+  opacity: 0.5;
+}
+.step.finish {
+  background-color: #04AA6D;
+}
+.step.active {
+  opacity: 1;
+}
+.stepIndicator
+{
+    text-align:center;
+    
+    font-size: 10px;
+    
+}
+
+
+
+</style>
 <body>
     {% block body %}{% endblock %}
 </body>
