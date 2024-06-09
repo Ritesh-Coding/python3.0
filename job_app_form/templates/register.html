@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% block title %} Registration {% endblock %}
+
+{% block body %}
+<div class="container">
+    <h1> Registration</h1>
+    
+      
+<form method="post">
+        {% csrf_token %}
+        <!-- {{modalform.as_p}}  -->
+        <div class="form-group">
+            <label for="FirstName">FirstName</label>
+            {{modalform.first_name}}
+            {% if modalform.errors.firstName %}
+               <p>{{modalform.errors.firstName}}</p>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <label for="LastName">LastName</label>
+            {{modalform.last_name}}
+            {% if modalform.errors.lastName %}
+               <p>{{modalform.errors.lastName}}</p>
+            {% endif %}
+          </div>
+        <div class="form-group">
+            <label for="username">Username</label>
+            {{modalform.username}}
+            {% if modalform.errors.username %}
+               <p>{{modalform.errors.username}}</p>
+            {% endif %}
+          </div>
+
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            {{modalform.email}}
+            {% if modalform.errors.email %}
+               <p>{{modalform.errors.email}}</p>
+            {% endif %}
+            <small id="emailHelp" class="form-text text- muted">We'll never share your email with anyone else.</small>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPhone">Phone</label>
+            {{modalform.phone}}
+            
+            {% if modalform.errors.phone %}
+               <p>{{modalform.errors.phone}}</p>
+            {% endif %}
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+            {{modalform.password1}}            
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword2">Confirm Password</label>
+            {{modalform.password2}}
+            {% if modalform.errors.password2 %}
+            <p>{{modalform.errors.password2}}</p>
+            {% endif %}
+            {% if modalform.errors.confirm_password %}
+                <p>{{modalform.errors.confirm_password}}</p>
+            {% endif %}
+          </div>
+
+          
+        <input type="submit" class="btn btn-success" value="Register">  
+       
+</form>
+
+  </div>
+
+{% endblock %}
