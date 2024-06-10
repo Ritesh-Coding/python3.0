@@ -7,48 +7,119 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages,auth
 from django.contrib.sessions.models import Session
 from django.forms import modelformset_factory
-from .models import LanguageKnown
+from .models import LanguageKnown,TechnologiesKnown
 LanguageKnownFormSet = modelformset_factory(LanguageKnown, form=LanguagesForm, extra=3)
-def EmployeeForm(request):
-    # saveBasicDetails = BasicDetailsForm()
-    # saveEducationDetails = EducationDetailsForm()
-    # saveWorkExperience = WorkExperienceForm()
-    saveLanguagesKnown= LanguageKnownFormSet()
-    # saveTechnologiesForm = TechnologiesForm()
-    # saveReferenceForm = ReferenceForm()
-    # savePreferenceForm = PreferenceTableForm()
+TechnologyKnownFormSet = modelformset_factory(TechnologiesKnown,form =TechnologiesForm,extra = 4 )
+def EmployeeForm(request,step=1):
+    step = int(request.POST.get('step', 1))
+    
     print("i am GET REQUEST")
     if request.method == "POST":
-        print("i am not valid")
-        # saveBasicDetails = BasicDetailsForm(request.POST)
-        # saveEducationDetails = EducationDetailsForm(request.POST)
-        # saveWorkExperience = WorkExperienceForm(request.POST)
-        saveLanguagesKnown = LanguageKnownFormSet(request.POST)
-        # saveTechnologiesForm = TechnologiesForm(request.POST)
-        # saveReferenceForm = ReferenceForm(request.POST)
-        # savePreferenceForm = PreferenceTableForm(request.POST)
-        if saveLanguagesKnown.is_valid():
-            # saveBasicDetails.save()
-            # saveEducationDetails.save()
-            # saveWorkExperience.save()
-            # saveLanguagesKnown.save()
-            # saveTechnologiesForm.save()
-            # saveReferenceForm.save()
-            # savePreferenceForm.save()
-            print(request.POST)
-            return redirect('login')
-        else:
-            saveBasic = saveLanguagesKnown.errors
-            print(saveBasic)
+        
+        if step==1:   
+            form_data_key = f'step_{step}_data'      
+            form = BasicDetailsForm(request.POST)
+            if form.is_valid():
+                basic_details = form.cleaned_data               
+                basic_details['date_of_birth'] = basic_details['date_of_birth'].isoformat()
+                request.session[form_data_key] = basic_details
+                print("STEP VALUE *****************************************************************************************",step)
+                form=EducationDetailsForm()                
+                step=2
+                
+        elif step==2:            
+            form = EducationDetailsForm(request.POST)
+            form_data_key = f'step_{step}_data'
+            if form.is_valid():
+                request.session[form_data_key] = form.cleaned_data                
+                form=WorkExperienceForm()
+                step=3
+            elif 'previous' in request.POST:
+                form_data_key = f'step_{step-1}_data'
+                form_data = request.session.get(form_data_key, {})
+                form = BasicDetailsForm(initial=form_data)                             
+                step=1
+                
+        elif step==3:
+            form=WorkExperienceForm(request.POST)
+            form_data_key = f'step_{step}_data'
+            if form.is_valid():
+                request.session[form_data_key]=form.cleaned_data
+                form=LanguageKnownFormSet()
+                step=4
+            elif 'previous' in request.POST:
+                form_data_key = f'step_{step-1}_data'
+                form_data = request.session.get(form_data_key, {})
+                form = EducationDetailsForm(initial=form_data)                             
+                step=2
+        elif step==4:
+            form=LanguageKnownFormSet(request.POST)
+            form_data_key = f'step_{step}_data'
+            if form.is_valid():               
+                request.session[form_data_key]=form.cleaned_data
+                form=LanguageKnownFormSet()
+                step=5
+            elif 'previous' in request.POST:
+                form_data_key = f'step_{step-1}_data'
+                form_data = request.session.get(form_data_key, {})
+                form = WorkExperienceForm(initial=form_data)                             
+                step=2
+        elif step==5:
+            form=TechnologyKnownFormSet(request.POST)
+            if form.is_valid():
+                request.session['technology_known_details']=form.cleaned_data
+                return redirect('job_form', step=6)
+            elif 'previous' in request.POST:
+                return redirect('job_form', step=4)
+        elif step==6:
+            form=ReferenceForm(request.POST)
+            if form.is_valid():
+                request.session['reference_details']=form.cleaned_data
+                return redirect('job_form', step=7)
+            elif 'previous' in request.POST:
+                return redirect('job_form', step=5)
+        elif step==7:
+            form=PreferenceTableForm(request.POST)
+           
+            if 'previous' in request.POST:
+                return redirect('job_form', step=6)  
+            elif form.is_valid():
+                basic_details = request.session.get('basic_details', {})
+                education_details = request.session.get('education_details', {}) 
+                work_experience_details = request.session.get('work_experience_details',{})
+                language_known_details = request.session.get('language_known_details',{})
+                technology_known_details = request.session.get('technology_known_details',{})
+                reference_details = request.session.get('reference_details',{})
+                print(basic_details)
+                print(education_details)
+                print(work_experience_details)
+                print(language_known_details)
+                print(technology_known_details)
+                print(reference_details)
+                return redirect('login')
+    else:
+            if step == 1:
+                form_data_key = f'step_{step}_data'
+                form_data = request.session.get(form_data_key, {})
+                form = BasicDetailsForm(initial=form_data)
+            elif step==2:
+                form_data_key = f'step_{step}_data'
+                form_data = request.session.get(form_data_key, {})                
+                form = EducationDetailsForm()
+            elif step==3:
+                form = WorkExperienceForm()
+            elif step ==4:
+                form = LanguageKnownFormSet()
+            elif step ==5:
+                form = TechnologyKnownFormSet()
+            elif step ==6:
+                form = ReferenceForm()
+            elif step==7:
+                 form = PreferenceTableForm()
             
     context = {
-            # "basicDetailsForm" :saveBasicDetails,
-            # "educationDetailsForm" :saveEducationDetails,
-            # "workExperienceForm" : saveWorkExperience,
-            "languageForm":LanguageKnownFormSet(queryset=LanguageKnown.objects.none()),
-            # "technologyForm":saveTechnologiesForm,
-            # "referenceForm":saveReferenceForm,
-            # "preferenceForm":savePreferenceForm           
+           'form': form,           
+           'step': step,         
     }
     
     return render(request,'job_form.html',context)

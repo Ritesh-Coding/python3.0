@@ -6,8 +6,9 @@
 <form
      method="post" autocomplete="on" id="Form1">
 {% csrf_token %}
-
-<div class="stepIndicator">
+{{step}}
+<input type="hidden" name="step" value="{{ step }}">
+{% comment %} <div class="stepIndicator">
     <div class="step">Basic Details</div>
     <div class="step">education Details</div>
     <span class="step">Work Experience</span>
@@ -15,8 +16,9 @@
     <span class="step">Technologies You Know</span>
     <span class="step">Reference</span>
     <span class="step">Preference</span>
-  </div>
-    {% comment %} <div class="tab">
+  </div> {% endcomment %}
+  {% if step == 1 %}
+     <div class="tab">
     <fieldset id="basic_details">
         <table>
             <legend>Basic Details</legend>
@@ -24,33 +26,33 @@
                 <td>
                     
                     <label for="firstname"> First name </label>
-                    {{basicDetailsForm.firstName}}
-                    {% if basicDetailsForm.errors.firstName %}
-                    <p>{{basicDetailsForm.errors.firstName}}</p>
+                    {{form.firstName}}
+                    {% if form.errors.firstName %}
+                    <p>{{form.errors.firstName}}</p>
                     {% endif %}
                 </td>
 
                 <td>
                     <label for="lastname"> Last name </label>
-                    {{basicDetailsForm.lastName}}
-                    {% if basicDetailsForm.errors.lastName %}
-                    <p>{{basicDetailsForm.errors.lastName}}</p>
+                    {{form.lastName}}
+                    {% if form.errors.lastName %}
+                    <p>{{form.errors.lastName}}</p>
                     {% endif %}
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="email"> Email </label>
-                    {{basicDetailsForm.email}}
-                    {% if basicDetailsForm.errors.email %}
-                    <p>{{basicDetailsForm.errors.email}}</p>
+                    {{form.email}}
+                    {% if form.errors.email %}
+                    <p>{{form.errors.email}}</p>
                     {% endif %}
                 </td>
                 <td>
                     <label for="Designation"> Designation </label>
-                    {{basicDetailsForm.designation}}
-                    {% if basicDetailsForm.errors.designation %}
-                    <p>{{basicDetailsForm.errors.designation}}</p>
+                    {{form.designation}}
+                    {% if form.errors.designation %}
+                    <p>{{form.errors.designation}}</p>
                     {% endif %}
                 </td>
 
@@ -58,16 +60,16 @@
             <tr>
                 <td>
                     <label for="Address1"> Address1 </label>
-                    {{basicDetailsForm.address1}}
-                    {% if basicDetailsForm.errors.address1 %}
-                    <p>{{basicDetailsForm.errors.address1}}</p>
+                    {{form.address1}}
+                    {% if form.errors.address1 %}
+                    <p>{{form.errors.address1}}</p>
                     {% endif %}
                 </td>
                 <td>
                     <label for="Address2"> Address2 </label>
-                    {{basicDetailsForm.address2}}
-                    {% if basicDetailsForm.errors.address2 %}
-                    <p>{{basicDetailsForm.errors.address2}}</p>
+                    {{form.address2}}
+                    {% if form.errors.address2 %}
+                    <p>{{form.errors.address2}}</p>
                     {% endif %}
                 </td>
             </tr>
@@ -75,32 +77,32 @@
             <tr>
                 <td>
                     <label for="Phone"> Phone Number </label>
-                    {{basicDetailsForm.phone}}
-                    {% if basicDetailsForm.errors.phone %}
-                    <p>{{basicDetailsForm.errors.phone}}</p>
+                    {{form.phone}}
+                    {% if form.errors.phone %}
+                    <p>{{form.errors.phone}}</p>
                     {% endif %}
                 </td>
                 <td>
                     <label for="City"> City </label>
-                    {{basicDetailsForm.cities}}  
-                    {% if basicDetailsForm.errors.cities %}
-                    <p>{{basicDetailsForm.errors.cities}}</p>
+                    {{form.cities}}  
+                    {% if form.errors.cities %}
+                    <p>{{form.errors.cities}}</p>
                     {% endif %}
                 </td>
             </tr>
             <tr rowspan="2">
                 <td>
                     Gender
-                    {{basicDetailsForm.gender}}  
-                    {% if basicDetailsForm.errors.gender %}
-                    <p>{{basicDetailsForm.errors.gender}}</p>
+                    {{form.gender}}  
+                    {% if form.errors.gender %}
+                    <p>{{form.errors.gender}}</p>
                     {% endif %}
                 </td>
                 <td>
                     <label for="states">States:</label>
-                    {{basicDetailsForm.states}}
-                    {% if basicDetailsForm.errors.states %}
-                    <p>{{basicDetailsForm.errors.states}}</p>
+                    {{form.states}}
+                    {% if form.errors.states %}
+                    <p>{{form.errors.states}}</p>
                     {% endif %}
                 </td>
             </tr>
@@ -108,9 +110,9 @@
                 <td></td>
                 <td>
                     <label for="Zipcode"> Zip code </label>
-                    {{basicDetailsForm.zip}}
-                    {% if basicDetailsForm.errors.zip %}
-                    <p>{{basicDetailsForm.errors.zip}}</p>
+                    {{form.zip}}
+                    {% if form.errors.zip %}
+                    <p>{{form.errors.zip}}</p>
                     {% endif %}
                 </td>
             </tr>
@@ -118,24 +120,26 @@
             <tr>
                 <td>
                     Relationship status
-                    {{basicDetailsForm.relationship}}
-                    {% if basicDetailsForm.errors.relationship %}
-                    <p>{{basicDetailsForm.errors.relationship}}</p>
+                    {{form.relationship}}
+                    {% if form.errors.relationship %}
+                    <p>{{form.errors.relationship}}</p>
                     {% endif %}
                 </td>
                 <td>
                     <label for="dateofbirth"> Date of Birth</label>
-                    {{basicDetailsForm.date_of_birth}}
-                    {% if basicDetailsForm.errors.date_of_birth %}
-                    <p>{{basicDetailsForm.errors.date_of_birth}}</p>
+                    {{form.date_of_birth}}
+                    {% if form.errors.date_of_birth %}
+                    <p>{{form.errors.date_of_birth}}</p>
                     {% endif %}
                 </td>
             </tr>
 
         </table>
     </fieldset>
+    <button type="submit">Next</button>
 </div> 
 
+{% elif step == 2 %}
  <div class="tab">
     <fieldset>
         <legend>Educational Details</legend>
@@ -143,68 +147,73 @@
         <input type="button" onclick="subtractRows()" value="-"></button>
         <table id="education_table" class="table">
             <tbody id="education_body">
-                {% if educationDetailsForm.errors.name_of_board %}
-                <p>{{educationDetailsForm.errors.name_of_board}}</p>
+                {% if form.errors.name_of_board %}
+                <p>{{form.errors.name_of_board}}</p>
             {% endif %}
-            {% if educationDetailsForm.errors.passing_year %}
-                        <p>{{educationDetailsForm.errors.passing_year}}</p>
+            {% if form.errors.passing_year %}
+                        <p>{{form.errors.passing_year}}</p>
                     {% endif %}
-                    {% if educationDetailsForm.errors.percentage %}
-                    <p>{{educationDetailsForm.errors.percentage}}</p>
+                    {% if form.errors.percentage %}
+                    <p>{{form.errors.percentage}}</p>
                 {% endif %}
                 <tr id="dynamic_row">
                     <td>
                         <label class="label" for="board_name">Name of Board</label>
-                        {{educationDetailsForm.name_of_board}}
+                        
+                        {{form.name_of_board}}
                        
                         <label class="label" for="passing_year">Passing Year</label>
-                        {{educationDetailsForm.passing_year}}
+                        {{form.passing_year}}
                         
                         <label class="label" for="percentage">Percentage</label>
-                        {{educationDetailsForm.percentage}}
+                        {{form.percentage}}
                        
                     </td>
                 </tr>
             </tbody>
         </table>
     </fieldset>
-    </div> {% endcomment %}
-
- {% comment %} <div class="tab">
+    <button type="submit" name="previous">Previous</button>
+        <button type="submit">Next</button>
+    </div> 
+{% elif step == 3 %}
+ <div class="tab">
     <fieldset>
         <legend>Work Experience</legend>
         <input type="button" onclick="experience_addRow()" value="+"></button>                   
         <input type="button" onclick="subtractRows1()" value="-"></button>
         <table id="workExperienceTable" class="table">
             <tbody id="workExperienceBody">
-                {% if workExperienceForm.errors.company_name %}
-                <p>{{workExperienceForm.errors.company_name}}</p>
+                {% if form.errors.company_name %}
+                <p>{{form.errors.company_name}}</p>
             {% endif %}
-            {% if workExperienceForm.errors.designation %}
-                        <p>{{workExperienceForm.errors.designation}}</p>
+            {% if form.errors.designation %}
+                        <p>{{form.errors.designation}}</p>
                     {% endif %}
-                    {% if workExperienceForm.errors.from1 %}
-                    <p>{{workExperienceForm.errors.from1}}</p>
+                    {% if form.errors.from1 %}
+                    <p>{{form.errors.from1}}</p>
                 {% endif %}
-                {% if workExperienceForm.errors.to1 %}
-                    <p>{{workExperienceForm.errors.to1}}</p>
+                {% if form.errors.to1 %}
+                    <p>{{form.errors.to1}}</p>
                 {% endif %}
                 <tr id="dynamic_row_Experience">
                     <td>
                         <label class="label" for="company_name">Company Name</label>
-                        {{workExperienceForm.company_name}}
+                        {{form.company_name}}
                         <label class="label" for="designation1">Designation</label>
-                        {{workExperienceForm.designation}}
+                        {{form.designation}}
                         <label class="label" for="from1">From</label>
-                        {{workExperienceForm.from1}}
+                        {{form.from1}}
                         <label class="label" for="to1">To</label>
-                        {{workExperienceForm.to1}}
+                        {{form.to1}}
                     </td>
                 </tr>
             </tbody>
         </table>
     </fieldset>
-</div> {% endcomment %}
+    <button type="submit" name="previous">Previous</button>
+        <button type="submit">Next</button>
+</div> 
 
 <div class="tab">
     <fieldset>
@@ -258,42 +267,73 @@
         <hr>
     {% endfor %}
 </fieldset>
-</div>
-{% comment %} 
+<button type="submit" name="previous">Previous</button>
+<button type="submit">Next</button>
+</div>  
+
 <div class="tab">
     <fieldset>
         <legend>
             Technologies You Know
         </legend>
-        <div>
-            <tr>
-                <td>
-                    {{technologyForm.technologies_known}}
-                    {{technologyForm.level_of_expertise}}
-                </td>
-                <br>
-                <td>
-                    {{technologyForm.technologies_known}}
-                    {{technologyForm.level_of_expertise}}
-                </td>
-                <br>
-                <td>
-                    {{technologyForm.technologies_known}}
-                    {{technologyForm.level_of_expertise}}
-                </td>
-            </tr>
-            
-        </div>
-        </fieldset>
-    </div>
+        {{ technologyForm.management_form }}
+        {% if technologyForm.errors.technologies_known %}
+        {{technologyForm.errors.technologies_known}}
+        {%endif%}
+        {% if technologyForm.errors.level_of_expertise %}
+        {{technologyForm.errors.level_of_expertise}}
+        {%endif%}
+        <table>
+            {% for form in technologyForm %}
+            {{ form.non_field_errors }}
+             <div>
+                <tr>
+                    <td>
+                        {{ form.technologies_known }}
+                        {% if form.technologies_known.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.technologies_known.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </td>
+                    <td>
+                        {{ form.level_of_expertise }}
+                        {% if form.level_of_expertise.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.level_of_expertise.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                        {%endif%}
+                    </td>
+                </tr>
+            </div>
+            {% endfor %}
+        </table>
+    </fieldset>
+    <button type="submit" name="previous">Previous</button>
+        <button type="submit">Next</button>
+</div> 
 
-<div class="tab">
+
+ <div class="tab">
     <fieldset>
         <legend>Reference Table</legend>
         <input type="button" onclick="addReferencerows()" value="+"></button>                  
         <input type="button" onclick="subtractRows2()" value="-"></button>
         <table id="referenceTable" class="table">
             <tbody id="referenceBody">
+                {% if referenceForm.errors.name %}
+                <p>{{referenceForm.errors.name}}</p>
+            {% endif %}
+            {% if referenceForm.errors.contact_no %}
+                        <p>{{referenceForm.errors.contact_no}}</p>
+                    {% endif %}
+                    {% if referenceForm.errors.Relation %}
+                    <p>{{referenceForm.errors.Relation}}</p>
+                {% endif %}
                 <tr id="dynamic_row">
                     <td>
                         
@@ -308,8 +348,10 @@
             </tbody>
         </table>
         </fieldset>
-</div>
-
+        <button type="submit" name="previous">Previous</button>
+        <button type="submit">Next</button>
+</div>  
+ 
 <div class="tab">
            
     <fieldset>
@@ -343,15 +385,17 @@
                 </tr>                
             </table>
         </fieldset>
-        
-</div>   {% endcomment %}
-<input type="submit" value="submit" id="submitButton" onclick="SubmitForm()">
+        <button type="submit" name="previous">Previous</button>
+        <button type="submit">Submit</button>
+</div>  
+{% comment %} <input type="submit" value="submit" id="submitButton" onclick="SubmitForm()">   
  <div style="overflow:auto;">
             
               <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
               <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
            
-          </div>
+          </div> {% endcomment %}
+          {% endif %}
 </form>
 <script>
      var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -448,7 +492,7 @@
           cell1.appendChild(label3)
 
           var input3= document.createElement('input')
-            input3.setAttribute("id","percentage")
+          input3.setAttribute("id","percentage")
           input3.setAttribute("name","percentage")
           input3.setAttribute("class","education")
           input3.setAttribute("type","number")
@@ -496,14 +540,14 @@
                  var cell1=document.createElement('td')
                  var label1 = document.createElement('label')
                  label1.setAttribute("class","label")
-                 label1.setAttribute("for","reference_name")
+                 label1.setAttribute("for","id_name")
                  label1.textContent='Name'
                  cell1.appendChild(label1)
              
                
                  var input= document.createElement('input')
-                   input.setAttribute("id","reference_name")
-                 input.setAttribute("name","reference_name")
+                   input.setAttribute("id","id_name")
+                 input.setAttribute("name","name")
                  input.setAttribute("class","reference")
                  input.setAttribute("type","text")
                  cell1.appendChild(input)
@@ -514,12 +558,12 @@
                 
                  var label2 = document.createElement('label')
                  label2.setAttribute("class","label")
-                 label2.setAttribute("for","contact_no")
+                 label2.setAttribute("for","id_contact_no")
                  label2.textContent='Contact No'
                  cell1.appendChild(label2)
        
                  var input2= document.createElement('input')
-                   input2.setAttribute("id","contact_no")
+                   input2.setAttribute("id","id_contact_no")
                  input2.setAttribute("name","contact_no")
                  input2.setAttribute("class","reference")
                  input2.setAttribute("type","text")
@@ -528,13 +572,13 @@
        
                  var label_31 = document.createElement('label')
                  label_31.setAttribute("class","label")
-                 label_31.setAttribute("for","reference_relation")
+                 label_31.setAttribute("for","id_Relation")
                  label_31.textContent='Reference Relation'
                  cell1.appendChild(label_31)
        
                  var input_31= document.createElement('input')
-                   input_31.setAttribute("id","reference_relation")
-                 input_31.setAttribute("name","reference_relation")
+                   input_31.setAttribute("id","id_Relation")
+                 input_31.setAttribute("name","Relation")
                  input_31.setAttribute("class","reference")
                  input_31.setAttribute("type","text")
        

@@ -6,4 +6,5 @@ urlpatterns= [
     path('login/',views.LoginForm,name='login'),    
     path('logout/', views.user_logout, name='logout'),
     path('job-application-form/', views.EmployeeForm, name='employeeForm'),
+    path('job-application-form/<int:step>/', views.EmployeeForm, name='employeeForm'),
 ]

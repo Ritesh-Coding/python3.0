@@ -96,6 +96,17 @@ class BasicDetailsForm(forms.ModelForm):
         'date_of_birth' : forms.SelectDateWidget(),
         'gender': forms.RadioSelect()
         }
+        def __init__(self, *args, **kwargs):
+        # Pop 'step' parameter from kwargs, defaulting to None if not present
+            step = kwargs.pop('step', None)
+            
+            # Call the parent class's __init__ method
+            super().__init__(*args, **kwargs)
+            
+            # Check if 'step' parameter is provided
+            if step is not None:
+                # Perform any initialization based on the step if needed
+                pass
 
 class EducationDetailsForm(forms.ModelForm):
     class Meta:
