@@ -105,7 +105,8 @@ class EducationDetailsForm(forms.ModelForm):
             'passing_year',
             'percentage'
         ]
-        
+    
+SSCHSCDetailsFormset = forms.formset_factory(EducationDetailsForm, extra=1)
 
 class WorkExperienceForm(forms.ModelForm):
     class Meta:
@@ -129,6 +130,24 @@ class LanguagesForm(forms.ModelForm):
             'can_write',
             'can_speak'
         ]
+    def clean(self):
+        cleaned_data = super().clean()
+        language_known = cleaned_data.get('language_known')
+        can_read = cleaned_data.get('can_read')
+        can_write = cleaned_data.get('can_write')
+        can_speak = cleaned_data.get('can_speak')
+        
+        if language_known and not (can_read or can_write or can_speak):
+            raise forms.ValidationError(
+                'If you select a language, you must select at least one of can_read, can_write, or can_speak.'
+            )
+        
+        if (can_read or can_write or can_speak) and not language_known:
+            raise forms.ValidationError(
+                'If you select can_read, can_write, or can_speak, you must also select language_known.'
+            )
+
+        return cleaned_data
 class TechnologiesForm(forms.ModelForm):
     class Meta:
         model = TechnologiesKnown

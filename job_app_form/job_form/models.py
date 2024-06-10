@@ -95,14 +95,14 @@ class SSCHSCDETAILS(models.Model):
         default = None,        
         )
     
-    passing_year = models.IntegerField(blank=False,null=False, validators=[
+    passing_year = models.CharField(blank=False,null=False, validators=[
                                       RegexValidator(
                  regex=r'^(19\d{2}|20[0-9]{2})$',
                  message="Enter a valid Passing Year.",
                  code="invalid_registration",
                      ),
                  ])
-    percentage = models.FloatField(blank=False,null=False, validators=[
+    percentage = models.CharField(blank=False,null=False, validators=[
                                       RegexValidator(
                  regex=r'^100(\.0{1,2})?$|^(\d{1,2}(\.\d{1,2})?)$',
                  message="Enter a valid Percentage.",
@@ -146,7 +146,7 @@ LANGUAGE_CHOICES = (
 )
 class LanguageKnown(models.Model):
     employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
-    language_known = models.CharField(max_length=15,choices=LANGUAGE_CHOICES,blank=False,null=False)
+    language_known = models.CharField(max_length=15,choices=LANGUAGE_CHOICES)
     can_read = models.BooleanField()
     can_write= models.BooleanField()
     can_speak = models.BooleanField()

@@ -16,7 +16,7 @@
     <span class="step">Reference</span>
     <span class="step">Preference</span>
   </div>
-    <div class="tab">
+    {% comment %} <div class="tab">
     <fieldset id="basic_details">
         <table>
             <legend>Basic Details</legend>
@@ -25,21 +25,33 @@
                     
                     <label for="firstname"> First name </label>
                     {{basicDetailsForm.firstName}}
+                    {% if basicDetailsForm.errors.firstName %}
+                    <p>{{basicDetailsForm.errors.firstName}}</p>
+                    {% endif %}
                 </td>
 
                 <td>
                     <label for="lastname"> Last name </label>
                     {{basicDetailsForm.lastName}}
+                    {% if basicDetailsForm.errors.lastName %}
+                    <p>{{basicDetailsForm.errors.lastName}}</p>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
                 <td>
                     <label for="email"> Email </label>
                     {{basicDetailsForm.email}}
+                    {% if basicDetailsForm.errors.email %}
+                    <p>{{basicDetailsForm.errors.email}}</p>
+                    {% endif %}
                 </td>
                 <td>
                     <label for="Designation"> Designation </label>
                     {{basicDetailsForm.designation}}
+                    {% if basicDetailsForm.errors.designation %}
+                    <p>{{basicDetailsForm.errors.designation}}</p>
+                    {% endif %}
                 </td>
 
             </tr>
@@ -47,10 +59,16 @@
                 <td>
                     <label for="Address1"> Address1 </label>
                     {{basicDetailsForm.address1}}
+                    {% if basicDetailsForm.errors.address1 %}
+                    <p>{{basicDetailsForm.errors.address1}}</p>
+                    {% endif %}
                 </td>
                 <td>
                     <label for="Address2"> Address2 </label>
                     {{basicDetailsForm.address2}}
+                    {% if basicDetailsForm.errors.address2 %}
+                    <p>{{basicDetailsForm.errors.address2}}</p>
+                    {% endif %}
                 </td>
             </tr>
 
@@ -58,20 +76,32 @@
                 <td>
                     <label for="Phone"> Phone Number </label>
                     {{basicDetailsForm.phone}}
+                    {% if basicDetailsForm.errors.phone %}
+                    <p>{{basicDetailsForm.errors.phone}}</p>
+                    {% endif %}
                 </td>
                 <td>
                     <label for="City"> City </label>
                     {{basicDetailsForm.cities}}  
+                    {% if basicDetailsForm.errors.cities %}
+                    <p>{{basicDetailsForm.errors.cities}}</p>
+                    {% endif %}
                 </td>
             </tr>
             <tr rowspan="2">
                 <td>
                     Gender
                     {{basicDetailsForm.gender}}  
+                    {% if basicDetailsForm.errors.gender %}
+                    <p>{{basicDetailsForm.errors.gender}}</p>
+                    {% endif %}
                 </td>
                 <td>
                     <label for="states">States:</label>
                     {{basicDetailsForm.states}}
+                    {% if basicDetailsForm.errors.states %}
+                    <p>{{basicDetailsForm.errors.states}}</p>
+                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -79,6 +109,9 @@
                 <td>
                     <label for="Zipcode"> Zip code </label>
                     {{basicDetailsForm.zip}}
+                    {% if basicDetailsForm.errors.zip %}
+                    <p>{{basicDetailsForm.errors.zip}}</p>
+                    {% endif %}
                 </td>
             </tr>
 
@@ -86,46 +119,76 @@
                 <td>
                     Relationship status
                     {{basicDetailsForm.relationship}}
+                    {% if basicDetailsForm.errors.relationship %}
+                    <p>{{basicDetailsForm.errors.relationship}}</p>
+                    {% endif %}
                 </td>
                 <td>
                     <label for="dateofbirth"> Date of Birth</label>
                     {{basicDetailsForm.date_of_birth}}
+                    {% if basicDetailsForm.errors.date_of_birth %}
+                    <p>{{basicDetailsForm.errors.date_of_birth}}</p>
+                    {% endif %}
                 </td>
             </tr>
 
         </table>
     </fieldset>
-</div>
+</div> 
 
-<div class="tab">
+ <div class="tab">
     <fieldset>
         <legend>Educational Details</legend>
         <input type="button" onclick="add_Rows()" value="+"></button>         
         <input type="button" onclick="subtractRows()" value="-"></button>
         <table id="education_table" class="table">
             <tbody id="education_body">
+                {% if educationDetailsForm.errors.name_of_board %}
+                <p>{{educationDetailsForm.errors.name_of_board}}</p>
+            {% endif %}
+            {% if educationDetailsForm.errors.passing_year %}
+                        <p>{{educationDetailsForm.errors.passing_year}}</p>
+                    {% endif %}
+                    {% if educationDetailsForm.errors.percentage %}
+                    <p>{{educationDetailsForm.errors.percentage}}</p>
+                {% endif %}
                 <tr id="dynamic_row">
                     <td>
                         <label class="label" for="board_name">Name of Board</label>
                         {{educationDetailsForm.name_of_board}}
+                       
                         <label class="label" for="passing_year">Passing Year</label>
                         {{educationDetailsForm.passing_year}}
+                        
                         <label class="label" for="percentage">Percentage</label>
                         {{educationDetailsForm.percentage}}
+                       
                     </td>
                 </tr>
             </tbody>
         </table>
     </fieldset>
-    </div>
+    </div> {% endcomment %}
 
-<div class="tab">
+ {% comment %} <div class="tab">
     <fieldset>
         <legend>Work Experience</legend>
         <input type="button" onclick="experience_addRow()" value="+"></button>                   
         <input type="button" onclick="subtractRows1()" value="-"></button>
         <table id="workExperienceTable" class="table">
             <tbody id="workExperienceBody">
+                {% if workExperienceForm.errors.company_name %}
+                <p>{{workExperienceForm.errors.company_name}}</p>
+            {% endif %}
+            {% if workExperienceForm.errors.designation %}
+                        <p>{{workExperienceForm.errors.designation}}</p>
+                    {% endif %}
+                    {% if workExperienceForm.errors.from1 %}
+                    <p>{{workExperienceForm.errors.from1}}</p>
+                {% endif %}
+                {% if workExperienceForm.errors.to1 %}
+                    <p>{{workExperienceForm.errors.to1}}</p>
+                {% endif %}
                 <tr id="dynamic_row_Experience">
                     <td>
                         <label class="label" for="company_name">Company Name</label>
@@ -141,45 +204,62 @@
             </tbody>
         </table>
     </fieldset>
-</div>
+</div> {% endcomment %}
 
 <div class="tab">
     <fieldset>
         <legend>Language Known</legend>
-        <tr>
-            
-            <td>                
-                {{languageForm.language_known}}
-                <label for="hindi_read">Read</label>
-                {{languageForm.can_read}}
-                <label for="hindi_write">Write</label>
-                {{languageForm.can_write}}
-                <label for="hindi_speak">speak</label>
-                {{languageForm.can_speak}}
-            </td> <br>
-            <td>                
-                {{languageForm.language_known}}
-                <label for="hindi_read">Read</label>
-                {{languageForm.can_read}}
-                <label for="hindi_write">Write</label>
-                {{languageForm.can_write}}
-                <label for="hindi_speak">speak</label>
-                {{languageForm.can_speak}}
-            </td> <br>
-            <td>                
-                {{languageForm.language_known}}
-                <label for="hindi_read">Read</label>
-                {{languageForm.can_read}}
-                <label for="hindi_write">Write</label>
-                {{languageForm.can_write}}
-                <label for="hindi_speak">speak</label>
-                {{languageForm.can_speak}}
-            </td>
-           
-        </tr>
+        {{ languageForm.management_form }}
+    {% for form in languageForm %}
+        {{ form.non_field_errors }}
+        <div>
+            {{ form.language_known.label_tag }} {{ form.language_known }}
+            {% if form.language_known.errors %}
+                <ul class="errorlist">
+                    {% for error in form.language_known.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div>
+            <label for="{{ form.can_read.id_for_label }}">Read</label>
+            {{ form.can_read }}
+            {% if form.can_read.errors %}
+                <ul class="errorlist">
+                    {% for error in form.can_read.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div>
+            <label for="{{ form.can_write.id_for_label }}">Write</label>
+            {{ form.can_write }}
+            {% if form.can_write.errors %}
+                <ul class="errorlist">
+                    {% for error in form.can_write.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <div>
+            <label for="{{ form.can_speak.id_for_label }}">Speak</label>
+            {{ form.can_speak }}
+            {% if form.can_speak.errors %}
+                <ul class="errorlist">
+                    {% for error in form.can_speak.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        <hr>
+    {% endfor %}
 </fieldset>
 </div>
-
+{% comment %} 
 <div class="tab">
     <fieldset>
         <legend>
@@ -263,9 +343,9 @@
                 </tr>                
             </table>
         </fieldset>
-        <input type="button" value="submit" id="submitButton" onclick="SubmitForm()">
-</div>
-
+        
+</div>   {% endcomment %}
+<input type="submit" value="submit" id="submitButton" onclick="SubmitForm()">
  <div style="overflow:auto;">
             
               <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
@@ -301,6 +381,10 @@
             function nextPrev(n) {
             // This function will figure out which tab to display
             var x = document.getElementsByClassName("tab");
+
+            if (n == 1 && !validateForm()) return false;
+
+
             // Hide the current tab:
             x[currentTab].style.display = "none";
             currentTab = currentTab + n;
@@ -320,7 +404,7 @@
         function add_Rows()
         {
         //   console.log("hELLO");
-          var row = education_items.insertRow();
+          {% comment %} var row = education_items.insertRow();
           row.setAttribute("id","dynamic_row")
           var cell1=document.createElement('td')
           var label1 = document.createElement('label')
@@ -329,8 +413,8 @@
           label1.textContent='Name of Board'
           cell1.appendChild(label1)
           var select = document.createElement('select')
-          select.setAttribute("id","board_name");
-          select.setAttribute("name","board_name")
+          select.setAttribute("id","name_of_board");
+          select.setAttribute("name","name_of_board")
 
         var board_names=['GSEB','CBSC',"Bachelor_Degree","Master_Degree","PHD"]
         board_names.forEach(function(board_name)
@@ -371,8 +455,13 @@
 
           cell1.appendChild(input3)
 
-          row.appendChild(cell1)        
-                        
+          row.appendChild(cell1)         {% endcomment %}
+
+          let educationItem = document.querySelector('#dynamic_row');
+          let clonedMenu = educationItem.cloneNode(true);
+          clonedMenu.id = 'dynamic_row';
+          
+          document.getElementById("education_body").appendChild(clonedMenu);
         }
         function subtractRows()
         {

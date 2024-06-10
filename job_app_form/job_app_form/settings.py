@@ -31,8 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'form',
-    
+   
+    'job_form',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'job_app_form.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jobapp2',
+        'NAME': 'jobappfinal',
         'USER': 'postgres',
-        'PASSWORD':'password',
+        'PASSWORD':'password123',
         'HOST':'localhost',
         'PORT':'5432'
     }
@@ -130,7 +130,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -141,4 +141,5 @@ STATICFILES_DIRS=[
     os.path.join(BASE_DIR, 'static')
 ]
 
-AUTH_USER_MODEL = 'form.CustomUser'
+
+AUTH_USER_MODEL = 'job_form.CustomUser'
