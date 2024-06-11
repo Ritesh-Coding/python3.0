@@ -88,7 +88,7 @@ BOARD_NAME = (
 )
 
 class SSCHSCDETAILS(models.Model):
-    employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
+    employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE,null=True)
    
     name_of_board = models.CharField(choices=BOARD_NAME,
         max_length=15,
@@ -145,11 +145,11 @@ LANGUAGE_CHOICES = (
     ('english','English')
 )
 class LanguageKnown(models.Model):
-    employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
+    employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
     language_known = models.CharField(max_length=15,choices=LANGUAGE_CHOICES)
-    can_read = models.BooleanField()
-    can_write= models.BooleanField()
-    can_speak = models.BooleanField()
+    can_read = models.BooleanField(default=False)
+    can_write= models.BooleanField(default=False)
+    can_speak = models.BooleanField(default=False)
 
     def __str__(self):
         return self.language_known
@@ -166,17 +166,17 @@ TECHNOLOGY_LIST=(
 )
 
 class TechnologiesKnown(models.Model):
-    employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
+    employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
     technologies_known = models.CharField(max_length=15,choices=TECHNOLOGY_KNOWN,blank=False,null=False)
     level_of_expertise = models.CharField(choices=TECHNOLOGY_LIST,
         max_length=9,
-        default = None,        
+                
         )
     def __str__(self):
         return self.technologies_known
     
 class Reference(models.Model):
-    employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
+    employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
     name = models.CharField(max_length=15,null=False,blank=False,
                                   validators=[
                                       RegexValidator(
@@ -202,7 +202,7 @@ DEPARTMENT_CHOICE=(
     ('marketing','Marketing')
 )
 class Preference(models.Model):
-    employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
+    employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
     preference_location = models.TextField()
     notice_period = models.CharField(max_length=15,blank=False,null=False)
     expected_ctc = models.CharField(max_length=15,blank=False,null=False)

@@ -1,15 +1,18 @@
 from django.shortcuts import render,redirect
 from .forms import userRegistrationForm,userLoginForm,BasicDetailsForm,EducationDetailsForm,WorkExperienceForm,LanguagesForm,TechnologiesForm,ReferenceForm,PreferenceTableForm
-
+from django.forms import formset_factory
 from django.shortcuts import HttpResponse, render, redirect
 from django.contrib.auth import authenticate, login, logout 
 from django.core.exceptions import ValidationError
 from django.contrib import messages,auth
 from django.contrib.sessions.models import Session
 from django.forms import modelformset_factory
-from .models import LanguageKnown,TechnologiesKnown
+from .login_required import login_required_session
+from .models import LanguageKnown,TechnologiesKnown,BasicDetails,SSCHSCDETAILS,WorkExperience,Reference,Preference
 LanguageKnownFormSet = modelformset_factory(LanguageKnown, form=LanguagesForm, extra=3)
 TechnologyKnownFormSet = modelformset_factory(TechnologiesKnown,form =TechnologiesForm,extra = 4 )
+
+@login_required_session
 def EmployeeForm(request,step=1):
     step = int(request.POST.get('step', 1))
     
@@ -23,17 +26,19 @@ def EmployeeForm(request,step=1):
                 basic_details = form.cleaned_data               
                 basic_details['date_of_birth'] = basic_details['date_of_birth'].isoformat()
                 request.session[form_data_key] = basic_details
-                print("STEP VALUE *****************************************************************************************",step)
+                # print("STEP VALUE *****************************************************************************************",step)
                 form=EducationDetailsForm()                
                 step=2
                 
         elif step==2:            
             form = EducationDetailsForm(request.POST)
             form_data_key = f'step_{step}_data'
-            if form.is_valid():
-                request.session[form_data_key] = form.cleaned_data                
-                form=WorkExperienceForm()
-                step=3
+            if 'next' in request.POST:
+                if form.is_valid():
+                    education_details = form.cleaned_data                
+                    request.session[form_data_key] = education_details               
+                    form=WorkExperienceForm()
+                    step=3
             elif 'previous' in request.POST:
                 form_data_key = f'step_{step-1}_data'
                 form_data = request.session.get(form_data_key, {})
@@ -43,10 +48,20 @@ def EmployeeForm(request,step=1):
         elif step==3:
             form=WorkExperienceForm(request.POST)
             form_data_key = f'step_{step}_data'
-            if form.is_valid():
-                request.session[form_data_key]=form.cleaned_data
-                form=LanguageKnownFormSet()
-                step=4
+            if 'next' in request.POST:
+                if form.is_valid():
+                    work_experience_details = form.cleaned_data
+                    work_experience_details['from1']=work_experience_details['from1'].isoformat()
+                    work_experience_details['to1']=work_experience_details['to1'].isoformat()
+                    request.session[form_data_key]=form.cleaned_data
+                    formset = formset_factory(LanguagesForm, formset=LanguageKnownFormSet)
+                    data = {
+              "form-TOTAL_FORMS": "3",
+              "form-INITIAL_FORMS": "0",              
+            }
+                    form = formset(data)
+                    # form = LanguageKnownFormSet()
+                    step=4
             elif 'previous' in request.POST:
                 form_data_key = f'step_{step-1}_data'
                 form_data = request.session.get(form_data_key, {})
@@ -55,67 +70,122 @@ def EmployeeForm(request,step=1):
         elif step==4:
             form=LanguageKnownFormSet(request.POST)
             form_data_key = f'step_{step}_data'
-            if form.is_valid():               
-                request.session[form_data_key]=form.cleaned_data
-                form=LanguageKnownFormSet()
-                step=5
+            if 'next' in request.POST:
+                if form.is_valid():               
+                    request.session[form_data_key]=form.cleaned_data
+                    
+                    formset = formset_factory(TechnologiesForm, formset=TechnologyKnownFormSet)
+                    data = {
+                    "form-TOTAL_FORMS": "4",
+                    "form-INITIAL_FORMS": "0",              
+                    }
+                    form = formset(data)
+
+                    # form = TechnologyKnownFormSet()
+
+
+                    step=5
             elif 'previous' in request.POST:
                 form_data_key = f'step_{step-1}_data'
                 form_data = request.session.get(form_data_key, {})
                 form = WorkExperienceForm(initial=form_data)                             
-                step=2
+                step=3
         elif step==5:
             form=TechnologyKnownFormSet(request.POST)
-            if form.is_valid():
-                request.session['technology_known_details']=form.cleaned_data
-                return redirect('job_form', step=6)
+            form_data_key = f'step_{step}_data'
+            print(form.errors)
+            if 'next' in request.POST:
+                
+                if form.is_valid():                    
+                    request.session[form_data_key]=form.cleaned_data
+                    form=ReferenceForm()
+                    step=6
             elif 'previous' in request.POST:
-                return redirect('job_form', step=4)
+                formset = formset_factory(LanguagesForm, formset=LanguageKnownFormSet)
+                data = {
+              "form-TOTAL_FORMS": "3",
+              "form-INITIAL_FORMS": "0",              
+                }
+                form = formset(data)
+                step=4
         elif step==6:
             form=ReferenceForm(request.POST)
-            if form.is_valid():
-                request.session['reference_details']=form.cleaned_data
-                return redirect('job_form', step=7)
+            form_data_key = f'step_{step}_data'
+            if 'next' in request.POST:
+                if form.is_valid():
+                    request.session[form_data_key]=form.cleaned_data
+                    form=PreferenceTableForm()
+                    step=7
             elif 'previous' in request.POST:
-                return redirect('job_form', step=5)
+                formset = formset_factory(TechnologiesForm, formset=TechnologyKnownFormSet)
+                data = {
+                    "form-TOTAL_FORMS": "4",
+                    "form-INITIAL_FORMS": "0",              
+                    }
+                form = formset(data)
+                step=5
         elif step==7:
-            form=PreferenceTableForm(request.POST)
-           
+            form=PreferenceTableForm(request.POST)  
+            form_data_key = f'step_{step}_data'         
             if 'previous' in request.POST:
-                return redirect('job_form', step=6)  
-            elif form.is_valid():
-                basic_details = request.session.get('basic_details', {})
-                education_details = request.session.get('education_details', {}) 
-                work_experience_details = request.session.get('work_experience_details',{})
-                language_known_details = request.session.get('language_known_details',{})
-                technology_known_details = request.session.get('technology_known_details',{})
-                reference_details = request.session.get('reference_details',{})
-                print(basic_details)
-                print(education_details)
-                print(work_experience_details)
-                print(language_known_details)
-                print(technology_known_details)
-                print(reference_details)
-                return redirect('login')
+                form_data_key = f'step_{step-1}_data'
+                form_data = request.session.get(form_data_key, {})
+                
+                form=ReferenceForm(initial=form_data)  
+                step=6
+            elif 'submit' in request.POST:
+                if form.is_valid():
+                    
+                    request.session[form_data_key]=form.cleaned_data
+                    basic_details = (request.session.get('step_1_data', {}))
+                    education_details = request.session.get('step_2_data', {}) 
+                    work_experience_details = request.session.get('step_3_data',{})
+                    language_known_details = request.session.get('step_4_data',{})
+                    technology_known_details = request.session.get('step_5_data',{})
+                    reference_details = request.session.get('step_6_data',{})
+                    preference_data = request.session.get('step_7_data',{})
+                    print(basic_details)                   
+                    print(education_details)
+                    print(work_experience_details)
+                    print(language_known_details)
+                    print(technology_known_details)
+                    print(reference_details)
+                    print(preference_data)
+                    basic_obj = BasicDetails.objects.create(**basic_details, user = request.user)
+                    SSCHSCDETAILS.objects.create(**education_details, employee_id= basic_obj)
+                    WorkExperience.objects.create(**work_experience_details,employee_id= basic_obj)
+                    for item in language_known_details:
+                        LanguageKnown.objects.create(**item,employee_id = basic_obj)
+                    for item in technology_known_details:
+                        TechnologiesKnown.objects.create(**item,employee_id = basic_obj )
+                    Reference.objects.create(**reference_details,employee_id = basic_obj)
+                    Preference.objects.create(**preference_data,employee_id =basic_obj)
+                    # Session.objects.filter(session_key=request.session.session_key).delete()
+                    return redirect('success')
     else:
             if step == 1:
                 form_data_key = f'step_{step}_data'
                 form_data = request.session.get(form_data_key, {})
                 form = BasicDetailsForm(initial=form_data)
-            elif step==2:
-                form_data_key = f'step_{step}_data'
-                form_data = request.session.get(form_data_key, {})                
-                form = EducationDetailsForm()
-            elif step==3:
-                form = WorkExperienceForm()
-            elif step ==4:
-                form = LanguageKnownFormSet()
-            elif step ==5:
-                form = TechnologyKnownFormSet()
-            elif step ==6:
-                form = ReferenceForm()
-            elif step==7:
-                 form = PreferenceTableForm()
+            # elif step==2:
+            #     form_data_key = f'step_{step}_data'
+            #     form_data = request.session.get(form_data_key, {})                
+            #     form = EducationDetailsForm(initial=form_data)
+            # elif step==3:
+            #     form_data_key = f'step_{step}_data'
+            #     form_data = request.session.get(form_data_key, {}) 
+            #     form = WorkExperienceForm(initial=form_data)
+            # elif step ==4:
+            #     form_data_key = f'step_{step}_data'
+            #     form_data = request.session.get(form_data_key, {}) 
+            #     form = LanguageKnownFormSet()
+                
+            # elif step ==5:
+            #     form = TechnologyKnownFormSet()
+            # elif step ==6:
+            #     form = ReferenceForm()
+            # elif step==7:
+            #      form = PreferenceTableForm()
             
     context = {
            'form': form,           
@@ -165,70 +235,11 @@ def LoginForm(request):
 
 def user_logout(request):
     logout(request)
-    # Session.objects.filter(session_key=request.session.session_key).delete()
+    Session.objects.filter(session_key=request.session.session_key).delete()
     return redirect('login')
 
+def home(request):
+    return render(request,'home.html')
 
-    return  render(request,'job_form.html')
-
-
-# from django.shortcuts import render, redirect
-# from .forms import Step1Form, Step2Form, Step3Form
-# from .models import Step1, Step2, Step3
-
-# def multi_step_form(request):
-#     step = int(request.POST.get('step', 1))
-
-#     if request.method == 'POST':
-#         if step == 1:
-#             form = Step1Form(request.POST)
-#             if form.is_valid():
-#                 request.session['step1_data'] = form.cleaned_data
-#                 return redirect('multi_step_form')
-#         elif step == 2:
-#             if 'previous' in request.POST:
-#                 return redirect('multi_step_form', {'step': 1})
-#             form = Step2Form(request.POST)
-#             if form.is_valid():
-#                 request.session['step2_data'] = form.cleaned_data
-#                 return redirect('multi_step_form', {'step': 3})
-#         elif step == 3:
-#             if 'previous' in request.POST:
-#                 return redirect('multi_step_form', {'step': 2})
-#             form = Step3Form(request.POST)
-#             if form.is_valid():
-#                 request.session['step3_data'] = form.cleaned_data
-
-#                 # Save all data to the database
-#                 step1_data = request.session.get('step1_data')
-#                 step2_data = request.session.get('step2_data')
-#                 step3_data = form.cleaned_data
-
-#                 Step1.objects.create(**step1_data)
-#                 Step2.objects.create(**step2_data)
-#                 Step3.objects.create(**step3_data)
-
-#                 # Clear session data
-#                 del request.session['step1_data']
-#                 del request.session['step2_data']
-#                 del request.session['step3_data']
-
-#                 return redirect('success')
-
-#     else:
-#         if step == 1:
-#             initial_data = request.session.get('step1_data', {})
-#             form = Step1Form(initial=initial_data)
-#         elif step == 2:
-#             initial_data = request.session.get('step2_data', {})
-#             form = Step2Form(initial=initial_data)
-#         elif step == 3:
-#             initial_data = request.session.get('step3_data', {})
-#             form = Step3Form(initial=initial_data)
-
-#     return render(request, 'multi_step_form.html', {'form': form, 'step': step})
-
-# def success(request):
-#     return render(request, 'success.html')
-
-
+def success(request):
+    return render(request,'success.html')

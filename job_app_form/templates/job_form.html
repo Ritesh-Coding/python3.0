@@ -2,7 +2,7 @@
 {% block title %} Job Application Form {% endblock %}
 
 {% block body %}
-<h1>Employee Registration Form</h1>
+<h1>Job Application Form</h1>
 <form
      method="post" autocomplete="on" id="Form1">
 {% csrf_token %}
@@ -167,14 +167,14 @@
                         
                         <label class="label" for="percentage">Percentage</label>
                         {{form.percentage}}
-                       
+                        
                     </td>
                 </tr>
             </tbody>
         </table>
     </fieldset>
     <button type="submit" name="previous">Previous</button>
-        <button type="submit">Next</button>
+        <button type="submit" name="next">Next</button>
     </div> 
 {% elif step == 3 %}
  <div class="tab">
@@ -212,84 +212,109 @@
         </table>
     </fieldset>
     <button type="submit" name="previous">Previous</button>
-        <button type="submit">Next</button>
+        <button type="submit" name="next">Next</button>
 </div> 
-
+{% elif step == 4 %}
 <div class="tab">
-    <fieldset>
-        <legend>Language Known</legend>
-        {{ languageForm.management_form }}
-    {% for form in languageForm %}
-        {{ form.non_field_errors }}
-        <div>
-            {{ form.language_known.label_tag }} {{ form.language_known }}
-            {% if form.language_known.errors %}
-                <ul class="errorlist">
-                    {% for error in form.language_known.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <div>
-            <label for="{{ form.can_read.id_for_label }}">Read</label>
-            {{ form.can_read }}
-            {% if form.can_read.errors %}
-                <ul class="errorlist">
-                    {% for error in form.can_read.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <div>
-            <label for="{{ form.can_write.id_for_label }}">Write</label>
-            {{ form.can_write }}
-            {% if form.can_write.errors %}
-                <ul class="errorlist">
-                    {% for error in form.can_write.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <div>
-            <label for="{{ form.can_speak.id_for_label }}">Speak</label>
-            {{ form.can_speak }}
-            {% if form.can_speak.errors %}
-                <ul class="errorlist">
-                    {% for error in form.can_speak.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        </div>
-        <hr>
-    {% endfor %}
+<fieldset>
+<legend>Language Known</legend>
+{{ form.management_form }}
+{% for form in form %}
+{{ form.non_field_errors }}
+<div> 
+{% if form.language_known %}
+{% if forloop.counter == 1 %} 
+
+<select name="form-0-language_known" id="id_form-0-language_known"> 
+<option value="">Choose Hindi</option>
+<option value="hindi" >Hindi</option> 
+</select>
+{% endif %}
+{% if forloop.counter == 2 %} 
+<select name="form-1-language_known" id="id_form-1-language_known"> 
+    <option value="">Choose English</option>
+<option value="english" >English</option> 
+</select>
+{% endif %}
+{% if forloop.counter == 3 %} 
+<select name="form-2-language_known" id="id_form-2-language_known"> 
+    <option value="">Choose English</option>
+<option value="gujarati" >Gujarati</option> 
+</select>
+{% endif %}
+{% if form.language_known.errors %}
+<ul class="errorlist">
+{% for error in form.language_known.errors %}
+<li>{{ error }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endif %}
+</div>
+<div>
+<label for="{{ form.can_read.id_for_label }}">Read</label>
+{{ form.can_read }}
+{% if form.can_read.errors %}
+<ul class="errorlist">
+{% for error in form.can_read.errors %}
+<li>{{ error }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+<div>
+<label for="{{ form.can_write.id_for_label }}">Write</label>
+{{ form.can_write }}
+{% if form.can_write.errors %}
+<ul class="errorlist">
+{% for error in form.can_write.errors %}
+<li>{{ error }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+<div>
+<label for="{{ form.can_speak.id_for_label }}">Speak</label>
+{{ form.can_speak }}
+{% if form.can_speak.errors %}
+<ul class="errorlist">
+{% for error in form.can_speak.errors %}
+<li>{{ error }}</li>
+{% endfor %}
+</ul>
+{% endif %}
+</div>
+<hr>
+{% endfor %}
 </fieldset>
 <button type="submit" name="previous">Previous</button>
-<button type="submit">Next</button>
+<button type="submit" name="next">Next</button>
 </div>  
-
+{% elif step == 5 %}
 <div class="tab">
     <fieldset>
         <legend>
             Technologies You Know
         </legend>
-        {{ technologyForm.management_form }}
-        {% if technologyForm.errors.technologies_known %}
-        {{technologyForm.errors.technologies_known}}
+        {{ form.management_form }}
+        {% if form.errors.technologies_known %}
+        {{form.errors.technologies_known}}
         {%endif%}
-        {% if technologyForm.errors.level_of_expertise %}
-        {{technologyForm.errors.level_of_expertise}}
+        {% if form.errors.level_of_expertise %}
+        {{form.errors.level_of_expertise}}
         {%endif%}
         <table>
-            {% for form in technologyForm %}
+            {% for form in form %}
             {{ form.non_field_errors }}
              <div>
                 <tr>
                     <td>
                         {{ form.technologies_known }}
+                        <!-- {% if forloop.counter == 1 %} 
+                        <select name="form-0-technologies_known" id="id_form-0-technologies_known"> 
+                        <option value="hindi" selected>Hindi</option> 
+                        </select>
+                        {% endif %} -->
                         {% if form.technologies_known.errors %}
                         <ul class="errorlist">
                             {% for error in form.technologies_known.errors %}
@@ -314,10 +339,9 @@
         </table>
     </fieldset>
     <button type="submit" name="previous">Previous</button>
-        <button type="submit">Next</button>
+        <button type="submit" name="next">Next</button>
 </div> 
-
-
+{% elif step == 6 %}
  <div class="tab">
     <fieldset>
         <legend>Reference Table</legend>
@@ -325,68 +349,67 @@
         <input type="button" onclick="subtractRows2()" value="-"></button>
         <table id="referenceTable" class="table">
             <tbody id="referenceBody">
-                {% if referenceForm.errors.name %}
-                <p>{{referenceForm.errors.name}}</p>
+                {% if form.errors.name %}
+                <p>{{form.errors.name}}</p>
             {% endif %}
-            {% if referenceForm.errors.contact_no %}
-                        <p>{{referenceForm.errors.contact_no}}</p>
+            {% if form.errors.contact_no %}
+                        <p>{{form.errors.contact_no}}</p>
                     {% endif %}
-                    {% if referenceForm.errors.Relation %}
-                    <p>{{referenceForm.errors.Relation}}</p>
+                    {% if form.errors.Relation %}
+                    <p>{{form.errors.Relation}}</p>
                 {% endif %}
                 <tr id="dynamic_row">
                     <td>
                         
                         <label for ="reference_name">Name</label>
-                        {{referenceForm.name}}
+                        {{form.name}}
                         <label for ="contact_no">Contact No</label>
-                        {{referenceForm.contact_no}}
+                        {{form.contact_no}}
                         <label for ="reference_relation">Reference Relation</label>
-                        {{referenceForm.Relation}}
+                        {{form.Relation}}
                     </td>
                 </tr>
             </tbody>
         </table>
         </fieldset>
         <button type="submit" name="previous">Previous</button>
-        <button type="submit">Next</button>
+        <button type="submit" name="next">Next</button>
 </div>  
- 
-<div class="tab">
-           
+{% elif step == 7 %}
+<div class="tab">           
     <fieldset>
         <legend>Preferance</legend>
         <table style="border: 5;">
             <tr>
                 <td rowspan="3">
                     <label for="preferred_location" style="text-align: center; display:block">Preferred location</label>
-                    {{preferenceForm.preference_location}}
+                    {{form.preference_location}}
                 </td>
                 <td>
                     <label for="notice_period">Notice Period</label>
-                    {{preferenceForm.notice_period}}
+                    {{form.notice_period}}
                 </td>
                 <td>
                     <p>Department</p>
-                    {{preferenceForm.department}}
+                    {{form.department}}
                 </td>
             </tr>
             <tr>
                 
                 <td><label for="expexted_ctc">Expected CTC</label>
-                    {{preferenceForm.expected_ctc}}
+                    {{form.expected_ctc}}
                 </td>
             </tr>
             <tr>               
                 
                 <td> <label for = "current_ctc">Current CTC</label>
-                    {{preferenceForm.current_ctc}}
+                    {{form.current_ctc}}
                     </td>
                 </tr>                
             </table>
         </fieldset>
         <button type="submit" name="previous">Previous</button>
-        <button type="submit">Submit</button>
+        <button type="submit" name="submit">Submit</button>
 </div>  
 {% comment %} <input type="submit" value="submit" id="submitButton" onclick="SubmitForm()">   
  <div style="overflow:auto;">
@@ -446,60 +469,7 @@
             }
             const education_items = document.getElementById("education_body")
         function add_Rows()
-        {
-        //   console.log("hELLO");
-          {% comment %} var row = education_items.insertRow();
-          row.setAttribute("id","dynamic_row")
-          var cell1=document.createElement('td')
-          var label1 = document.createElement('label')
-          label1.setAttribute("class","label")
-          label1.setAttribute("for","board_name")
-          label1.textContent='Name of Board'
-          cell1.appendChild(label1)
-          var select = document.createElement('select')
-          select.setAttribute("id","name_of_board");
-          select.setAttribute("name","name_of_board")
-
-        var board_names=['GSEB','CBSC',"Bachelor_Degree","Master_Degree","PHD"]
-        board_names.forEach(function(board_name)
-        {
-            var option = document.createElement('option')
-            option.value=board_name;
-            option.textContent=board_name;
-            select.appendChild(option)
-        })
-        cell1.appendChild(select)       
- 
-         
-          var label2 = document.createElement('label')
-          label2.setAttribute("class","label")
-          label2.setAttribute("for","passing_year")
-          label2.textContent='Passing Year'
-          cell1.appendChild(label2)
-
-          var input2= document.createElement('input')
-            input2.setAttribute("id","passing_year")
-          input2.setAttribute("name","passing_year")
-          input2.setAttribute("class","education")
-          input2.setAttribute("type","number")
-
-          cell1.appendChild(input2)
-
-          var label3 = document.createElement('label')
-          label3.setAttribute("class","label")
-          label3.setAttribute("for","percentage")
-          label3.textContent='Percentage'
-          cell1.appendChild(label3)
-
-          var input3= document.createElement('input')
-          input3.setAttribute("id","percentage")
-          input3.setAttribute("name","percentage")
-          input3.setAttribute("class","education")
-          input3.setAttribute("type","number")
-
-          cell1.appendChild(input3)
-
-          row.appendChild(cell1)         {% endcomment %}
+        {          
 
           let educationItem = document.querySelector('#dynamic_row');
           let clonedMenu = educationItem.cloneNode(true);
@@ -521,7 +491,7 @@
                
                function experience_addRow()
                {
-               //   console.log("hELLO");
+               
                 let experienceItem = document.querySelector('#dynamic_row_Experience');
                 let clonedMenu = experienceItem.cloneNode(true);
                 clonedMenu.id = 'dynamic_row_Experience';
@@ -534,57 +504,12 @@
                
                function addReferencerows()
                {
-               
-                 var row = reference_items.insertRow();
-                 row.setAttribute("id","dynamic_row")
-                 var cell1=document.createElement('td')
-                 var label1 = document.createElement('label')
-                 label1.setAttribute("class","label")
-                 label1.setAttribute("for","id_name")
-                 label1.textContent='Name'
-                 cell1.appendChild(label1)
-             
-               
-                 var input= document.createElement('input')
-                   input.setAttribute("id","id_name")
-                 input.setAttribute("name","name")
-                 input.setAttribute("class","reference")
-                 input.setAttribute("type","text")
-                 cell1.appendChild(input)
-                 row.appendChild(cell1)
-       
-       
-       
+                let experienceItem = document.querySelector('#dynamic_row');
+                let clonedMenu = experienceItem.cloneNode(true);
+                clonedMenu.id = 'dynamic_row_Experience';
                 
-                 var label2 = document.createElement('label')
-                 label2.setAttribute("class","label")
-                 label2.setAttribute("for","id_contact_no")
-                 label2.textContent='Contact No'
-                 cell1.appendChild(label2)
-       
-                 var input2= document.createElement('input')
-                   input2.setAttribute("id","id_contact_no")
-                 input2.setAttribute("name","contact_no")
-                 input2.setAttribute("class","reference")
-                 input2.setAttribute("type","text")
-       
-                 cell1.appendChild(input2)
-       
-                 var label_31 = document.createElement('label')
-                 label_31.setAttribute("class","label")
-                 label_31.setAttribute("for","id_Relation")
-                 label_31.textContent='Reference Relation'
-                 cell1.appendChild(label_31)
-       
-                 var input_31= document.createElement('input')
-                   input_31.setAttribute("id","id_Relation")
-                 input_31.setAttribute("name","Relation")
-                 input_31.setAttribute("class","reference")
-                 input_31.setAttribute("type","text")
-       
-                 cell1.appendChild(input_31)   
-       
-                 row.appendChild(cell1)        
+                document.getElementById("referenceBody").appendChild(clonedMenu);
+                    
                                
                }
         function subtractRows1()
@@ -603,7 +528,7 @@
             var rowCount = table.rows.length;
             
             // Ensure there's at least one row other than the header
-            if (rowCount > 0) {
+            if (rowCount > 1) {
                 table.deleteRow(rowCount - 1); // Delete the last row
             }
         }
