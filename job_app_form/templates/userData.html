@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% block title %} userData {% endblock %}
+
+{% block body %}
+
+{% for item in basicDetails %}
+<div class="card">
+    <h2>Basic Details</h2>
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+      First Name : {{item.firstName}}
+    </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Last Name : {{item.lastName}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        email : {{item.email}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Designation : {{item.designation}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Address1 : {{item.address1}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Address2 : {{item.address2}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        RelationShip Status : {{item.relationship}}
+      </div>
+     
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Phone : {{item.phone}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Gender : {{item.gender}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Cities : {{item.cities}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+       States : {{item.states}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Zip : {{item.zip}}
+       </div>
+       <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Date Of Birth : {{item.date_of_birth}}
+       </div>
+      
+    </div>
+  </div>
+{%endfor%}
+
+<h2>Education Details</h2>
+{% for item in educationDetails %}
+<div class="card">
+  
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+      Name Of Board : {{item.name_of_board}}
+    </div>
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Passing Year: {{item.passing_year}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Percentage : {{item.percentage}}
+      </div>
+      <hr>
+</div>
+{% endfor %}
+
+<h2>Work Experience Details</h2>
+{% for item in workExperience %}
+<div class="card">
+  
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+      Company Name : {{item.company_name}}
+    </div>
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Designation: {{item.designation}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        From  : {{item.from1}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        To : {{item.to1}}
+      </div>
+      <hr>
+</div>
+{% endfor %}
+
+<h2>Languages Known</h2>
+
+{% for item in languagesKnown %}
+<div class="card">
+    {%if item.language_known %}
+        <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Language Known : {{item.language_known}}
+        </div>
+        <div class="card-body p-3 mb-2 bg-secondary text-white">
+            Hindi: {{item.can_read}}
+        </div>
+        <div class="card-body p-3 mb-2 bg-secondary text-white">
+            English  : {{item.can_write}}
+        </div>
+        <div class="card-body p-3 mb-2 bg-secondary text-white">
+            Gujarati : {{item.can_speak}}
+        </div>
+        <hr>
+      {%endif %}
+</div>
+{% endfor %}
+
+<h2>Technologies Known</h2>
+
+{% for item in technologiesKnown %}
+<div class="card">
+   
+    {%if item.technologies_known %}
+        <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Technologies Known : {{item.technologies_known}}
+        </div>
+        <div class="card-body p-3 mb-2 bg-secondary text-white">
+            Level Of Expertise: {{item.level_of_expertise}}
+        </div>
+        
+        <hr>
+      {%endif %}
+</div>
+{% endfor %}
+
+<h2>Reference Details</h2>
+{% for item in reference %}
+<div class="card">
+   
+  
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+      Name  : {{item.name}}
+    </div>
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Contact No: {{item.contact_no}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Relation : {{item.Relation}}
+      </div>
+      <hr>
+</div>
+{% endfor %}
+
+
+{% for item in preference %}
+
+<div class="card">
+    <h2>Preference location</h2>
+    <div class="card-body p-3 mb-2 bg-secondary text-white">
+     Preferred Location : {{item.preference_location}}
+    </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+       Notice Period : {{item.notice_period}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white">
+        Expected CTC : {{item.expected_ctc}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white"">
+        Current CTC : {{item.current_ctc}}
+      </div>
+      <div class="card-body p-3 mb-2 bg-secondary text-white"">
+        Department : {{item.department}}
+      </div>
+      
+       
+      
+    </div>
+  </div>
+{%endfor%}
+
+{%endblock%}

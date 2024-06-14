@@ -3,534 +3,563 @@
 
 {% block body %}
 <h1>Job Application Form</h1>
-<form
-     method="post" autocomplete="on" id="Form1">
-{% csrf_token %}
-{{step}}
-<input type="hidden" name="step" value="{{ step }}">
-{% comment %} <div class="stepIndicator">
-    <div class="step">Basic Details</div>
-    <div class="step">education Details</div>
-    <span class="step">Work Experience</span>
-    <span class="step">Languages Known</span>
-    <span class="step">Technologies You Know</span>
-    <span class="step">Reference</span>
-    <span class="step">Preference</span>
-  </div> {% endcomment %}
-  {% if step == 1 %}
-     <div class="tab">
-    <fieldset id="basic_details">
-        <table>
-            <legend>Basic Details</legend>
-            <tr>
-                <td>
+<h2>Welcome {{request.user.username}}</h2>
+<div>
+    <a href="/logout" style="margin-top: 30px;" type = "button" class="btn btn-warning" id="logout">LogOut</a>
+</div>
+
+<form method="post" autocomplete="on" id="Form1">
+    {% csrf_token %}
+    
+    <input type="hidden" name="step" value="{{ step }}">
+    <div class="stepIndicator">
+        <div class="step btn btn-info">Basic Details</div>
+        <div class="step btn btn-info">Education Details</div>
+        <span class="step btn btn-info">Work Experience</span>
+        <span class="step btn btn-info">Languages Known</span>
+        <span class="step btn btn-info">Technologies You Know</span>
+        <span class="step btn btn-info">Reference</span>
+        <span class="step btn btn-info">Preference</span>
+    </div>
+    {% if step == 1 %}
+    <div class="tab">
+        <fieldset id="basic_details">
+            <table>
+                <legend>Basic Details</legend>
+                <tr>
+                    <td>
+
+                        <label for="firstname"> First name </label>
+                        {{form.firstName}}
+                        {% if form.errors.firstName %}
+                        <p>{{form.errors.firstName}}</p>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        <label for="lastname"> Last name </label>
+                        {{form.lastName}}
+                        {% if form.errors.lastName %}
+                        <p>{{form.errors.lastName}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="email"> Email </label>
+                        {{form.email}}
+                        {% if form.errors.email %}
+                        <p>{{form.errors.email}}</p>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <label for="Designation"> Designation </label>
+                        {{form.designation}}
+                        {% if form.errors.designation %}
+                        <p>{{form.errors.designation}}</p>
+                        {% endif %}
+                    </td>
+
+                </tr>
+                <tr>
+                    <td>
+                        <label for="Address1"> Address1 </label>
+                        {{form.address1}}
+                        {% if form.errors.address1 %}
+                        <p>{{form.errors.address1}}</p>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <label for="Address2"> Address2 </label>
+                        {{form.address2}}
+                        {% if form.errors.address2 %}
+                        <p>{{form.errors.address2}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <label for="Phone"> Phone Number </label>
+                        {{form.phone}}
+                        {% if form.errors.phone %}
+                        <p>{{form.errors.phone}}</p>
+                        {% endif %}
+                    </td>
                     
-                    <label for="firstname"> First name </label>
-                    {{form.firstName}}
-                    {% if form.errors.firstName %}
-                    <p>{{form.errors.firstName}}</p>
-                    {% endif %}
-                </td>
+                </tr>
+                <tr rowspan="2">
+                    <td>
+                        Gender
+                        {{form.gender}}
+                        {% if form.errors.gender %}
+                        <p>{{form.errors.gender}}</p>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <!-- {{form.states}} -->
+                        <label for="states">States:</label>
+                        <select id="states" name="states" >
+                            <option value="" >--select-state--</option>                        
+                            {% for item in stateDropdownResults%}
+                            <option value="{{item.city_state}}">{{ item.city_state  }}</option>
+                            {%endfor%}
+                        </select>
+                        {% if form.errors.states %}
+                        <p>{{form.errors.states}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label for="options">Cities:</label>
+                        <!-- {{form.cities}} -->
+                        <select name="cities" id="cities">
+                            <option value="">--select--</option>
+                        </select>
+                        {% if form.errors.cities %}
+                        <p>{{form.errors.cities}}</p>
+                        {% endif %}
+                    </td>
+                    </td>
+                    <td>
+                        <label for="Zipcode"> Zip code </label>
+                        {{form.zip}}
+                        {% if form.errors.zip %}
+                        <p>{{form.errors.zip}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
 
-                <td>
-                    <label for="lastname"> Last name </label>
-                    {{form.lastName}}
-                    {% if form.errors.lastName %}
-                    <p>{{form.errors.lastName}}</p>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <label for="email"> Email </label>
-                    {{form.email}}
-                    {% if form.errors.email %}
-                    <p>{{form.errors.email}}</p>
-                    {% endif %}
-                </td>
-                <td>
-                    <label for="Designation"> Designation </label>
-                    {{form.designation}}
-                    {% if form.errors.designation %}
-                    <p>{{form.errors.designation}}</p>
-                    {% endif %}
-                </td>
+                <tr>
+                    <td>
+                        Relationship status
+                        {{form.relationship}}
+                        {% if form.errors.relationship %}
+                        <p>{{form.errors.relationship}}</p>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <label for="dateofbirth"> Date of Birth</label>
+                        {{form.date_of_birth}}
+                        {% if form.errors.date_of_birth %}
+                        <p>{{form.errors.date_of_birth}}</p>
+                        {% endif %}
+                    </td>
+                </tr>
 
-            </tr>
-            <tr>
-                <td>
-                    <label for="Address1"> Address1 </label>
-                    {{form.address1}}
-                    {% if form.errors.address1 %}
-                    <p>{{form.errors.address1}}</p>
-                    {% endif %}
-                </td>
-                <td>
-                    <label for="Address2"> Address2 </label>
-                    {{form.address2}}
-                    {% if form.errors.address2 %}
-                    <p>{{form.errors.address2}}</p>
-                    {% endif %}
-                </td>
-            </tr>
+            </table>
+        </fieldset>
+        <button type="submit" class="nextBtn">Next</button>
+    </div>
 
-            <tr>
-                <td>
-                    <label for="Phone"> Phone Number </label>
-                    {{form.phone}}
-                    {% if form.errors.phone %}
-                    <p>{{form.errors.phone}}</p>
-                    {% endif %}
-                </td>
-                <td>
-                    <label for="City"> City </label>
-                    {{form.cities}}  
-                    {% if form.errors.cities %}
-                    <p>{{form.errors.cities}}</p>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr rowspan="2">
-                <td>
-                    Gender
-                    {{form.gender}}  
-                    {% if form.errors.gender %}
-                    <p>{{form.errors.gender}}</p>
-                    {% endif %}
-                </td>
-                <td>
-                    <label for="states">States:</label>
-                    {{form.states}}
-                    {% if form.errors.states %}
-                    <p>{{form.errors.states}}</p>
-                    {% endif %}
-                </td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>
-                    <label for="Zipcode"> Zip code </label>
-                    {{form.zip}}
-                    {% if form.errors.zip %}
-                    <p>{{form.errors.zip}}</p>
-                    {% endif %}
-                </td>
-            </tr>
+    {% elif step == 2 %}
+    <div class="tab">
+        <fieldset>
+            <legend>Educational Details</legend>
+            <input type="button" onclick="add_Rows()" value="+"></button>
+            <input type="button" onclick="subtractRows()" value="-"></button>
+            <table id="education_table" class="table">
+                <!--                    to update -->
+               
+                {% if updateForm%}
+                <H1>IUFDHI</H1>
+                {{form}}
+                {% else %}
+                
+                <tbody id="education_body">
+                    <tr id="dynamic_row">
+                        <td>
+                            <label class="label" for="board_name">Name of Board</label>
+                            {{form.name_of_board}}
 
-            <tr>
-                <td>
-                    Relationship status
-                    {{form.relationship}}
-                    {% if form.errors.relationship %}
-                    <p>{{form.errors.relationship}}</p>
-                    {% endif %}
-                </td>
-                <td>
-                    <label for="dateofbirth"> Date of Birth</label>
-                    {{form.date_of_birth}}
-                    {% if form.errors.date_of_birth %}
-                    <p>{{form.errors.date_of_birth}}</p>
-                    {% endif %}
-                </td>
-            </tr>
+                            <label class="label" for="passing_year">Passing Year</label>
+                            {{form.passing_year}}
 
-        </table>
-    </fieldset>
-    <button type="submit">Next</button>
-</div> 
+                            <label class="label" for="percentage">Percentage</label>
+                            {{form.percentage}}
 
-{% elif step == 2 %}
- <div class="tab">
-    <fieldset>
-        <legend>Educational Details</legend>
-        <input type="button" onclick="add_Rows()" value="+"></button>         
-        <input type="button" onclick="subtractRows()" value="-"></button>
-        <table id="education_table" class="table">
-            <tbody id="education_body">
-                {% if form.errors.name_of_board %}
-                <p>{{form.errors.name_of_board}}</p>
-            {% endif %}
-            {% if form.errors.passing_year %}
-                        <p>{{form.errors.passing_year}}</p>
+                        </td>
+                    </tr>               
+                
+                    {% if form.errors.name_of_board %}
+                    <p>{{form.errors.name_of_board}}</p>
+                    {% endif %}
+                    {% if form.errors.passing_year %}
+                    <p>{{form.errors.passing_year}}</p>
                     {% endif %}
                     {% if form.errors.percentage %}
                     <p>{{form.errors.percentage}}</p>
-                {% endif %}
-                <tr id="dynamic_row">
-                    <td>
-                        <label class="label" for="board_name">Name of Board</label>
-                        
-                        {{form.name_of_board}}
-                       
-                        <label class="label" for="passing_year">Passing Year</label>
-                        {{form.passing_year}}
-                        
-                        <label class="label" for="percentage">Percentage</label>
-                        {{form.percentage}}
-                        
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </fieldset>
-    <button type="submit" name="previous">Previous</button>
-        <button type="submit" name="next">Next</button>
-    </div> 
-{% elif step == 3 %}
- <div class="tab">
-    <fieldset>
-        <legend>Work Experience</legend>
-        <input type="button" onclick="experience_addRow()" value="+"></button>                   
-        <input type="button" onclick="subtractRows1()" value="-"></button>
-        <table id="workExperienceTable" class="table">
-            <tbody id="workExperienceBody">
-                {% if form.errors.company_name %}
-                <p>{{form.errors.company_name}}</p>
-            {% endif %}
-            {% if form.errors.designation %}
-                        <p>{{form.errors.designation}}</p>
+                    {% endif %}
+                    
+                {%endif%}
+                </tbody>
+            </table>
+        </fieldset>
+        <button type="submit" name="previous" class="prevBtn">Previous</button>
+        <button type="submit" name="next" class="nextBtn">Next</button>
+    </div>
+    {% elif step == 3 %}
+    <div class="tab">
+        <fieldset>
+            <legend>Work Experience</legend>
+            <input type="button" onclick="experience_addRow()" value="+"></button>
+            <input type="button" onclick="subtractRows1()" value="-"></button>
+            <table id="workExperienceTable" class="table">
+                <!--                    to update -->
+                {% if updateForm%}
+                {{form}}
+                {% else %}
+                <tbody id="workExperienceBody">
+                    {% if form.errors.company_name %}
+                    <p>{{form.errors.company_name}}</p>
+                    {% endif %}
+                    {% if form.errors.designation %}
+                    <p>{{form.errors.designation}}</p>
                     {% endif %}
                     {% if form.errors.from1 %}
                     <p>{{form.errors.from1}}</p>
-                {% endif %}
-                {% if form.errors.to1 %}
+                    {% endif %}
+                    {% if form.errors.to1 %}
                     <p>{{form.errors.to1}}</p>
-                {% endif %}
-                <tr id="dynamic_row_Experience">
-                    <td>
-                        <label class="label" for="company_name">Company Name</label>
-                        {{form.company_name}}
-                        <label class="label" for="designation1">Designation</label>
-                        {{form.designation}}
-                        <label class="label" for="from1">From</label>
-                        {{form.from1}}
-                        <label class="label" for="to1">To</label>
-                        {{form.to1}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </fieldset>
-    <button type="submit" name="previous">Previous</button>
-        <button type="submit" name="next">Next</button>
-</div> 
-{% elif step == 4 %}
-<div class="tab">
-<fieldset>
-<legend>Language Known</legend>
-{{ form.management_form }}
-{% for form in form %}
-{{ form.non_field_errors }}
-<div> 
-{% if form.language_known %}
-{% if forloop.counter == 1 %} 
-
-<select name="form-0-language_known" id="id_form-0-language_known"> 
-<option value="">Choose Hindi</option>
-<option value="hindi" >Hindi</option> 
-</select>
-{% endif %}
-{% if forloop.counter == 2 %} 
-<select name="form-1-language_known" id="id_form-1-language_known"> 
-    <option value="">Choose English</option>
-<option value="english" >English</option> 
-</select>
-{% endif %}
-{% if forloop.counter == 3 %} 
-<select name="form-2-language_known" id="id_form-2-language_known"> 
-    <option value="">Choose English</option>
-<option value="gujarati" >Gujarati</option> 
-</select>
-{% endif %}
-{% if form.language_known.errors %}
-<ul class="errorlist">
-{% for error in form.language_known.errors %}
-<li>{{ error }}</li>
-{% endfor %}
-</ul>
-{% endif %}
-{% endif %}
-</div>
-<div>
-<label for="{{ form.can_read.id_for_label }}">Read</label>
-{{ form.can_read }}
-{% if form.can_read.errors %}
-<ul class="errorlist">
-{% for error in form.can_read.errors %}
-<li>{{ error }}</li>
-{% endfor %}
-</ul>
-{% endif %}
-</div>
-<div>
-<label for="{{ form.can_write.id_for_label }}">Write</label>
-{{ form.can_write }}
-{% if form.can_write.errors %}
-<ul class="errorlist">
-{% for error in form.can_write.errors %}
-<li>{{ error }}</li>
-{% endfor %}
-</ul>
-{% endif %}
-</div>
-<div>
-<label for="{{ form.can_speak.id_for_label }}">Speak</label>
-{{ form.can_speak }}
-{% if form.can_speak.errors %}
-<ul class="errorlist">
-{% for error in form.can_speak.errors %}
-<li>{{ error }}</li>
-{% endfor %}
-</ul>
-{% endif %}
-</div>
-<hr>
-{% endfor %}
-</fieldset>
-<button type="submit" name="previous">Previous</button>
-<button type="submit" name="next">Next</button>
-</div>  
-{% elif step == 5 %}
-<div class="tab">
-    <fieldset>
-        <legend>
-            Technologies You Know
-        </legend>
-        {{ form.management_form }}
-        {% if form.errors.technologies_known %}
-        {{form.errors.technologies_known}}
-        {%endif%}
-        {% if form.errors.level_of_expertise %}
-        {{form.errors.level_of_expertise}}
-        {%endif%}
-        <table>
+                    {% endif %}
+                    <tr id="dynamic_row_Experience">
+                        <td>
+                            <label class="label" for="company_name">Company Name</label>
+                            {{form.company_name}}
+                            <label class="label" for="designation1">Designation</label>
+                            {{form.designation}}
+                            <label class="label" for="from1">From</label>
+                            {{form.from1}}
+                            <label class="label" for="to1">To</label>
+                            {{form.to1}}
+                        </td>
+                    </tr>
+                </tbody>
+                {%endif%}
+            </table>
+        </fieldset>
+        <button type="submit" name="previous" class="prevBtn">Previous</button>
+        <button type="submit" name="next" class="nextBtn">Next</button>
+    </div>
+    {% elif step == 4 %}
+    <div class="tab">
+        <fieldset>
+            <legend>Language Known</legend>
+            {{ form.management_form }}
+            {%if updateForm %}
+            {{form.as_p}}
+            {%else%}
+            
             {% for form in form %}
             {{ form.non_field_errors }}
-             <div>
-                <tr>
-                    <td>
-                        {{ form.technologies_known }}
-                        <!-- {% if forloop.counter == 1 %} 
-                        <select name="form-0-technologies_known" id="id_form-0-technologies_known"> 
-                        <option value="hindi" selected>Hindi</option> 
-                        </select>
-                        {% endif %} -->
-                        {% if form.technologies_known.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.technologies_known.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                    {% endif %}
-                    </td>
-                    <td>
-                        {{ form.level_of_expertise }}
-                        {% if form.level_of_expertise.errors %}
-                        <ul class="errorlist">
-                            {% for error in form.level_of_expertise.errors %}
-                                <li>{{ error }}</li>
-                            {% endfor %}
-                        </ul>
-                        {%endif%}
-                    </td>
-                </tr>
+            <div>
+                {% if form.language_known %}
+                {% if forloop.counter == 1 %}
+
+                <select name="form-0-language_known" id="id_form-0-language_known">
+                    <option value="">Choose Hindi</option>
+                    <option value="hindi">Hindi</option>
+                </select>
+                {% endif %}
+                {% if forloop.counter == 2 %}
+                <select name="form-1-language_known" id="id_form-1-language_known">
+                    <option value="">Choose English</option>
+                    <option value="english">English</option>
+                </select>
+                {% endif %}
+                {% if forloop.counter == 3 %}
+                <select name="form-2-language_known" id="id_form-2-language_known">
+                    <option value="">Choose English</option>
+                    <option value="gujarati">Gujarati</option>
+                </select>
+                {% endif %}
+                
+                {% endif %}
             </div>
+            <div>
+                <label for="{{ form.can_read.id_for_label }}">Read</label>
+                {{ form.can_read }}
+               
+            </div>
+            <div>
+                <label for="{{ form.can_write.id_for_label }}">Write</label>
+                {{ form.can_write }}
+                
+            </div>
+            <div>
+                <label for="{{ form.can_speak.id_for_label }}">Speak</label>
+                {{ form.can_speak }}                
+            </div>
+            <hr>
             {% endfor %}
-        </table>
-    </fieldset>
-    <button type="submit" name="previous">Previous</button>
-        <button type="submit" name="next">Next</button>
-</div> 
-{% elif step == 6 %}
- <div class="tab">
-    <fieldset>
-        <legend>Reference Table</legend>
-        <input type="button" onclick="addReferencerows()" value="+"></button>                  
-        <input type="button" onclick="subtractRows2()" value="-"></button>
-        <table id="referenceTable" class="table">
-            <tbody id="referenceBody">
-                {% if form.errors.name %}
-                <p>{{form.errors.name}}</p>
-            {% endif %}
-            {% if form.errors.contact_no %}
-                        <p>{{form.errors.contact_no}}</p>
+            {%endif%}
+        </fieldset>
+        <button type="submit" name="previous" class="prevBtn">Previous</button>
+        <button type="submit" name="next" class="nextBtn">Next</button>
+    </div>
+    {% elif step == 5 %}
+    <div class="tab">
+        <fieldset>
+            <legend>
+                Technologies You Know
+            </legend>
+            {{ form.management_form }}
+            {%if updateForm %}
+            {{form.as_p}}
+            {%else%}
+            
+                {% for form in form %}
+                {{ form.non_field_errors }}
+                <div>
+                    <div>
+                        <div>
+                           
+                            {% if form.technologies_known %}
+                            {% if forloop.counter == 1 %}
+                            <select name="form-0-technologies_known" id="id_form-0-technologies_known">
+                                <option value="" selected="">Select PHP</option>
+                                <option value="php">PHP</option>
+                            </select>
+                            {% endif %}
+                            {% if forloop.counter == 2 %}
+                            <select name="form-1-technologies_known" id="id_form-1-technologies_known">
+                                <option value="" selected="">Select MYSQL</option>
+                                <option value="mysql">MYSQL</option>
+                            </select>
+                            {% endif %}
+                            {% if forloop.counter == 3 %}
+                            <select name="form-2-technologies_known" id="id_form-2-technologies_known">
+                                <option value="" selected="">Select Laravel</option>
+                                <option value="laravel">LARAVEL</option>
+                            </select>
+                            {% endif %}
+                            {% if forloop.counter == 4 %}
+                            <select name="form-3-technologies_known" id="id_form-3-technologies_known">
+                                <option value="" selected="">Select Oracle</option>
+                                <option value="oracle">ORACLE</option>
+                            </select>
+
+                            {% endif %}
+                            {% endif %}
+
+                        </div>
+                        <div>
+                            {{ form.level_of_expertise }}
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+           {%endif%}
+        </fieldset>
+        <button type="submit" name="previous" class="prevBtn">Previous</button>
+        <button type="submit" name="next" class="nextBtn">Next</button>
+    </div>
+    {% elif step == 6 %}
+    <div class="tab">
+        <fieldset>
+            <legend>Reference Table</legend>
+            <input type="button" onclick="addReferencerows()" value="+"></button>
+            <input type="button" onclick="subtractRows2()" value="-"></button>
+            <table id="referenceTable" class="table">
+                <!--                    to update -->
+                {% if updateForm%}
+                {{form}}
+                {% else %}
+                <tbody id="referenceBody">
+                    {% if form.errors.name %}
+                    <p>{{form.errors.name}}</p>
+                    {% endif %}
+                    {% if form.errors.contact_no %}
+                    <p>{{form.errors.contact_no}}</p>
                     {% endif %}
                     {% if form.errors.Relation %}
                     <p>{{form.errors.Relation}}</p>
-                {% endif %}
-                <tr id="dynamic_row">
-                    <td>
-                        
-                        <label for ="reference_name">Name</label>
-                        {{form.name}}
-                        <label for ="contact_no">Contact No</label>
-                        {{form.contact_no}}
-                        <label for ="reference_relation">Reference Relation</label>
-                        {{form.Relation}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        </fieldset>
-        <button type="submit" name="previous">Previous</button>
-        <button type="submit" name="next">Next</button>
-</div>  
-{% elif step == 7 %}
-<div class="tab">           
-    <fieldset>
-        <legend>Preferance</legend>
-        <table style="border: 5;">
-            <tr>
-                <td rowspan="3">
-                    <label for="preferred_location" style="text-align: center; display:block">Preferred location</label>
-                    {{form.preference_location}}
-                </td>
-                <td>
-                    <label for="notice_period">Notice Period</label>
-                    {{form.notice_period}}
-                </td>
-                <td>
-                    <p>Department</p>
-                    {{form.department}}
-                </td>
-            </tr>
-            <tr>
-                
-                <td><label for="expexted_ctc">Expected CTC</label>
-                    {{form.expected_ctc}}
-                </td>
-            </tr>
-            <tr>               
-                
-                <td> <label for = "current_ctc">Current CTC</label>
-                    {{form.current_ctc}}
-                    </td>
-                </tr>                
+                    {% endif %}
+                    <tr id="dynamic_row">
+                        <td>
+
+                            <label for="reference_name">Name</label>
+                            {{form.name}}
+                            <label for="contact_no">Contact No</label>
+                            {{form.contact_no}}
+                            <label for="reference_relation">Reference Relation</label>
+                            {{form.Relation}}
+                        </td>
+                    </tr>
+                </tbody>
+                {%endif%}
             </table>
         </fieldset>
-        <button type="submit" name="previous">Previous</button>
-        <button type="submit" name="submit">Submit</button>
-</div>  
-{% comment %} <input type="submit" value="submit" id="submitButton" onclick="SubmitForm()">   
- <div style="overflow:auto;">
-            
-              <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
-              <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
-           
-          </div> {% endcomment %}
-          {% endif %}
+        <button type="submit" name="previous" class="prevBtn">Previous</button>
+        <button type="submit" name="next" class="nextBtn">Next</button>
+    </div>
+    {% elif step == 7 %}
+    <div class="tab">
+        <fieldset>
+            <legend>Preferance</legend>
+            <table style="border: 5;">
+                <tr>
+                    <td rowspan="3">
+                        <label for="preferred_location" style="text-align: center; display:block">Preferred
+                            location</label>
+                        {{form.preference_location}}
+                    </td>
+                    <td>
+                        <label for="notice_period">Notice Period</label>
+                        {{form.notice_period}}
+                    </td>
+                    <td>
+                        <p>Department</p>
+                        {{form.department}}
+                    </td>
+                </tr>
+                <tr>
+
+                    <td><label for="expexted_ctc">Expected CTC</label>
+                        {{form.expected_ctc}}
+                    </td>
+                </tr>
+                <tr>
+
+                    <td> <label for="current_ctc">Current CTC</label>
+                        {{form.current_ctc}}
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <button type="submit" name="previous" class="prevBtn">Previous</button>
+        <button type="submit" name="submit" class="nextBtn">Submit</button>
+    </div>
+    
+    {% endif %}
 </form>
 <script>
-     var currentTab = 0; // Current tab is set to be the first tab (0)
-     showTab(currentTab); // Display the current tab
-     function showTab(n) {
-            // This function will display the specified tab of the form...
-            var x = document.getElementsByClassName("tab");
-            x[n].style.display = "block";
-            //... and fix the Previous/Next buttons:
-            if (n == 0) {
-                document.getElementById("prevBtn").style.display = "none";
-                document.getElementById("nextBtn").style.display="inline"
-            } else {
-                document.getElementById("prevBtn").style.display = "inline";
-                document.getElementById("nextBtn").style.display="inline"
-            }
-            if (n == (x.length - 1)) {
-                document.getElementById("nextBtn").style.display="none"
-                document.getElementById("prevBtn").style.display="inline"
-            } else {
-                document.getElementById("nextBtn").innerHTML = "Next";
-            }
-            //... and run a function that will display the correct step indicator:
-            fixStepIndicator(n)
-            }
-
-            function nextPrev(n) {
-            // This function will figure out which tab to display
-            var x = document.getElementsByClassName("tab");
-
-            if (n == 1 && !validateForm()) return false;
+   
 
 
-            // Hide the current tab:
-            x[currentTab].style.display = "none";
-            currentTab = currentTab + n;
-            showTab(currentTab);
-            }
-            function fixStepIndicator(n) {
-            // This function removes the "active" class of all steps...
-            var i, x = document.getElementsByClassName("step");
-            for (i = 0; i < x.length; i++) {
-                x[i].className = x[i].className.replace(" active", "");
-            }
-            //... and adds the "active" class on the current step:
-            x[n].className += " active";
-            
-            }
-            const education_items = document.getElementById("education_body")
-        function add_Rows()
-        {          
 
-          let educationItem = document.querySelector('#dynamic_row');
-          let clonedMenu = educationItem.cloneNode(true);
-          clonedMenu.id = 'dynamic_row';
-          
-          document.getElementById("education_body").appendChild(clonedMenu);
+    value = Number("{{step}}")
+    var currentTab = value-1
+
+
+    showTab(currentTab); // Display the current tab
+    function showTab(n) {       
+       
+        fixStepIndicator(n)
+    }
+
+
+    if (currentTab == 0)
+    {
+        const stateDropdown = document.getElementById("states")
+        const optionDropdown= document.getElementById("cities")
+
+        stateDropdown.addEventListener('change',function(){
+                const selectedstate=this.value;
+                fetch(`/api/cities?state=${selectedstate}`)
+                .then(response => response.json())
+                .then(data => {
+                    optionDropdown.innerHTML=  '<option value=""> --select city--</option>'
+                    console.log(data)
+                    data.forEach(city => {
+                        const option = document.createElement('option');
+                        option.value= city.city_name;
+                        option.textContent=city.city_name;
+                        optionDropdown.appendChild(option)
+                    })
+                }).catch(error=> console.error("Error fetching cities",error))
+
+            })
         }
-        function subtractRows()
-        {
-            var table = document.getElementById("education_table");
-            var rowCount = table.rows.length;
-            
-            // Ensure there's at least one row other than the header
-            if (rowCount > 1) {
-                table.deleteRow(rowCount - 1); // Delete the last row
-            }
+
+
+
+
+
+    function nextPrev(n) {
+        // This function will figure out which tab to display
+        var x = document.getElementsByClassName("tab");
+
+        if (n == 1 && !validateForm()) return false;
+
+
+        // Hide the current tab:
+        x[currentTab].style.display = "none";
+        currentTab = currentTab + n;
+        showTab(currentTab);
+    }
+    function fixStepIndicator(n) {
+        // This function removes the "active" class of all steps...
+        var i, x = document.getElementsByClassName("step");
+        for (i = 0; i < x.length; i++) {
+            x[i].className = x[i].className.replace(" active", "");
         }
-        const experienceTable = document.getElementById("workExperienceBody")
-               
-               function experience_addRow()
-               {
-               
-                let experienceItem = document.querySelector('#dynamic_row_Experience');
-                let clonedMenu = experienceItem.cloneNode(true);
-                clonedMenu.id = 'dynamic_row_Experience';
-                
-                document.getElementById("workExperienceBody").appendChild(clonedMenu);
-                
-                               
-               }
-               const reference_items = document.getElementById("referenceBody")
-               
-               function addReferencerows()
-               {
-                let experienceItem = document.querySelector('#dynamic_row');
-                let clonedMenu = experienceItem.cloneNode(true);
-                clonedMenu.id = 'dynamic_row_Experience';
-                
-                document.getElementById("referenceBody").appendChild(clonedMenu);
-                    
-                               
-               }
-        function subtractRows1()
-        {
-            var table = document.getElementById("workExperienceTable");
-            var rowCount = table.rows.length;
-            
-            // Ensure there's at least one row other than the header
-            if (rowCount > 1) {
-                table.deleteRow(rowCount - 1); // Delete the last row
-            }
+        //... and adds the "active" class on the current step:
+        x[n].className += " active";
+
+    }
+    const education_items = document.getElementById("education_body")
+    function add_Rows() {
+
+        let educationItem = document.querySelector('#dynamic_row');
+        let clonedMenu = educationItem.cloneNode(true);
+        clonedMenu.id = 'dynamic_row';
+
+        document.getElementById("education_body").appendChild(clonedMenu);
+    }
+    function subtractRows() {
+        var table = document.getElementById("education_table");
+        var rowCount = table.rows.length;
+
+        // Ensure there's at least one row other than the header
+        if (rowCount > 1) {
+            table.deleteRow(rowCount - 1); // Delete the last row
         }
-        function subtractRows2()
-        {
-            var table = document.getElementById("referenceTable");
-            var rowCount = table.rows.length;
-            
-            // Ensure there's at least one row other than the header
-            if (rowCount > 1) {
-                table.deleteRow(rowCount - 1); // Delete the last row
-            }
+    }
+    const experienceTable = document.getElementById("workExperienceBody")
+
+    function experience_addRow() {
+
+        let experienceItem = document.querySelector('#dynamic_row_Experience');
+        let clonedMenu = experienceItem.cloneNode(true);
+        clonedMenu.id = 'dynamic_row_Experience';
+
+        document.getElementById("workExperienceBody").appendChild(clonedMenu);
+
+
+    }
+    const reference_items = document.getElementById("referenceBody")
+
+    function addReferencerows() {
+        let experienceItem = document.querySelector('#dynamic_row');
+        let clonedMenu = experienceItem.cloneNode(true);
+        clonedMenu.id = 'dynamic_row_Experience';
+
+        document.getElementById("referenceBody").appendChild(clonedMenu);
+
+
+    }
+    function subtractRows1() {
+        var table = document.getElementById("workExperienceTable");
+        var rowCount = table.rows.length;
+
+        // Ensure there's at least one row other than the header
+        if (rowCount > 1) {
+            table.deleteRow(rowCount - 1); // Delete the last row
         }
+    }
+    function subtractRows2() {
+        var table = document.getElementById("referenceTable");
+        var rowCount = table.rows.length;
+
+        // Ensure there's at least one row other than the header
+        if (rowCount > 1) {
+            table.deleteRow(rowCount - 1); // Delete the last row
+        }
+    }
 </script>
+
+
 {% endblock %}

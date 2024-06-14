@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %} Login {% endblock %}
+
+{% block body %}
+
+Are You Sure You want to Delete?
+<a href="/deleteForm/{{id}}" class="btn btn-info" role="button" >Yes</a>
+<a href="{% url 'adminDashboard'%}" class="btn btn-info" role="button">No</a>
+
+
+{% endblock %}

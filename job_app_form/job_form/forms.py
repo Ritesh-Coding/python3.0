@@ -69,7 +69,7 @@ class userLoginForm(forms.Form):
                                }))
     password = forms.CharField(widget=forms.PasswordInput(attrs={
                                 'class':'form-control',
-                                'placeholder':'Username'
+                                'placeholder':'Password'
                             }))
     
 
@@ -129,8 +129,8 @@ class WorkExperienceForm(forms.ModelForm):
             'to1'
         ]
         widgets={
-        'from1' : forms.SelectDateWidget(),
-         'to1' : forms.SelectDateWidget()
+        'from1' : forms.DateInput(attrs={"type": "date"}),
+         'to1' : forms.DateInput(attrs={"type": "date"})
         }
 class LanguagesForm(forms.ModelForm):
     class Meta:
@@ -169,6 +169,19 @@ class TechnologiesForm(forms.ModelForm):
         widgets = {
             'level_of_expertise' : forms.RadioSelect(attrs={'class': 'form-check-inline'}),
             }
+    def clean(self):
+        cleaned_data = super().clean()
+        technologies_known = cleaned_data.get('technologies_known')
+        level_of_expertise = cleaned_data.get('level_of_expertise')
+        
+        if technologies_known and not level_of_expertise:
+            raise forms.ValidationError(
+                'If You select the technology then you select atleast one level of expertise'
+            )
+        if level_of_expertise and not technologies_known:
+            raise forms.ValidationError(
+                'Select the Technology First'
+            )
 class ReferenceForm(forms.ModelForm):
     class Meta:
         model = Reference

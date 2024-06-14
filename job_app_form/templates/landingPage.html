@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block title %} Job Application Form {% endblock %}
+
+{% block body %}
+<style>
+    body {font-family: Arial, Helvetica, sans-serif;}
+    * {box-sizing: border-box;}
+    
+    /* Set a style for all buttons */
+    button {
+      background-color: #04AA6D;
+      color: white;
+      padding: 14px 20px;
+      margin: 8px 0;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+    }
+    
+    button:hover {
+      opacity:1;
+    }
+    
+    /* Float cancel and delete buttons and add an equal width */
+    .cancelbtn, .deletebtn {
+      float: left;
+      width: 50%;
+    }
+    
+    /* Add a color to the cancel button */
+    .cancelbtn {
+      background-color: #ccc;
+      color: black;
+    }
+    
+    /* Add a color to the delete button */
+    .deletebtn {
+      background-color: #f44336;
+    }
+    
+    /* Add padding and center-align text to the container */
+    .container {
+      padding: 16px;
+      text-align: center;
+    }
+
+    
+    </style>
+<h1>Job Application Form</h1>
+<h2>Welcome {{request.user.username}}</h2>
+{% if request.user.is_superuser %}
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Serial No</th>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Email</th>
+        <th scope="col" colspan="3">Action</th>        
+      </tr>
+    </thead>
+    
+    {% for x in allUser %}
+    <tr>
+      <td>{{ x.id }}</td>
+        <td>{{ x.firstName }}</td>
+        <td>{{x.lastName}}</td>
+        <td>{{x.email}}</td>
+        <td><a class="btn btn-info" role="button" href="/userData/{{x.id}}">View</a></td>
+        <td><a class="btn btn-info" role="button" href="/update-job-application-form/{{x.id}}">Update</a></td>
+        <td><a href="/confirmDelete/{{x.id}}" class="btn btn-info" role="button" >Delete</a>
+
+           
+            </td>
+    </tr>
+    {% endfor %}
+    <div class="pagination">
+      <span class="step-links">
+          {% if allUser.has_previous %}
+              <a class="btn btn-info" href="?page=1">&laquo; first</a>
+              <a class="btn btn-info" href="?page={{ allUser.previous_page_number }}">previous</a>
+          {% endif %}
+  
+          <span class="current">
+              Page {{ allUser.number }} of {{ allUser.paginator.num_pages }}.
+          </span>
+  
+          {% if allUser.has_next %}
+              <a class="btn btn-info" href="?page={{ allUser.next_page_number }}">next</a>
+              <a class="btn btn-info" href="?page={{ allUser.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div>
+    </tbody>
+  </table>
+  <a  href="{% url 'employeeForm' %}" class="btn btn-info newForm" role="button">Create New Form</a>
+  <h2>Admin Forms</h2>
+  <table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Serial No</th>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Email</th>
+        <th scope="col" colspan="3">Action</th>        
+      </tr>
+    </thead>
+    
+    {% for x in adminData %}
+    <tr>
+      <td>{{ x.id }}</td>
+        <td>{{ x.firstName }}</td>
+        <td>{{x.lastName}}</td>
+        <td>{{x.email}}</td>
+        <td><a class="btn btn-info" role="button" href="/userData/{{x.id}}">View</a></td>
+        <td><a class="btn btn-info" role="button" href="/update-job-application-form/{{x.id}}">Update</a></td>
+        <td><a href="/confirmDelete/{{x.id}}" class="btn btn-info" role="button" >Delete</a>
+
+           
+      </td>
+    </tr>
+    {% endfor %}
+    <div class="pagination">
+      <span class="step-links">
+          {% if adminData.has_previous %}
+              <a class="btn btn-info" href="?p=1">&laquo; first</a>
+              <a class="btn btn-info" href="?p={{ adminData.previous_page_number }}">previous</a>
+          {% endif %}
+  
+          <span class="current">
+              Page {{ adminData.number }} of {{ adminData.paginator.num_pages }}.
+          </span>
+  
+          {% if adminData.has_next %}
+              <a class="btn btn-info" href="?p={{ adminData.next_page_number }}">next</a>
+              <a class="btn btn-info" href="?p={{ adminData.paginator.num_pages }}">last &raquo;</a>
+          {% endif %}
+      </span>
+  </div> 
+    </tbody>
+  </table>
+  
+{% else %}
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">Serial No</th>
+        <th scope="col">FirstName</th>
+        <th scope="col">LastName</th>
+        <th scope="col">Email</th>
+        <th scope="col" colspan="2">Action</th>       
+      </tr>
+    </thead>
+    <tbody>
+        {% for x in data %}
+        <tr>
+          <td>{{ x.id }}</td>
+            <td>{{ x.firstName }}</td>
+            <td>{{x.lastName}}</td>
+            <td>{{x.email}}</td>
+            <td><a class="btn btn-info" role="button" href="userData/{{x.id}}">View</a></td>            
+        </tr>
+        {% endfor %}
+        <div class="pagination">
+          <span class="step-links">
+              {% if data.has_previous %}
+                  <a class="btn btn-info" href="?page=1">&laquo; first</a>
+                  <a class="btn btn-info" href="?page={{ data.previous_page_number }}">previous</a>
+              {% endif %}
+      
+              <span class="current">
+                  Page {{ data.number }} of {{ data.paginator.num_pages }}.
+              </span>
+      
+              {% if data.has_next %}
+                  <a class="btn btn-info" href="?page={{ data.next_page_number }}">next</a>
+                  <a class="btn btn-info" href="?page={{ data.paginator.num_pages }}">last &raquo;</a>
+              {% endif %}
+          </span>
+      </div>
+    </tbody>
+</table>
+
+<a  href="{% url 'employeeForm' %}" class="btn btn-info newForm" role="button">Create New Form</a>
+
+
+{% endif  %}
+
+{% endblock %}

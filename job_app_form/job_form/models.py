@@ -69,15 +69,16 @@ class BasicDetails(models.Model):
      email =  models.EmailField(null=False,blank=False)
      phone =  models.CharField(blank=False,null=False,validators=[validate_phone])
      gender = models.CharField(max_length=6,choices=GENDER_CHOICES,blank=False,null=False)
-     cities = models.CharField(max_length=15,blank=False,null=False,default='Ahmedabad')
-     states = models.CharField(max_length=10,blank=False,null=False)
+     cities = models.CharField(max_length=20,null=True,blank=True)
+     states = models.CharField(max_length=25,blank=False,null=False)
      zip = models.CharField(blank=False,null=False,validators=[validate_zip])
      relationship = models.CharField(max_length=8,choices=RELATIONSHIP_STATUS,blank=False,null=False)
      date_of_birth= models.DateField(null=False,blank=False,
                                    )
      
      def __str__(self):
-         return self.firstName
+         
+         return self.firstName,self.lastName
 BOARD_NAME = (
     ("GSEB","GSEB"),
     ("CBSC","CBSC"),
@@ -113,7 +114,7 @@ class SSCHSCDETAILS(models.Model):
         return self.name_of_board
     
 class WorkExperience(models.Model):
-    employee_id= models.OneToOneField(BasicDetails,on_delete=models.CASCADE)
+    employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
     company_name = models.CharField(max_length=15,null=False,blank=False,
                                   validators=[
                                       RegexValidator(
@@ -167,10 +168,9 @@ TECHNOLOGY_LIST=(
 
 class TechnologiesKnown(models.Model):
     employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
-    technologies_known = models.CharField(max_length=15,choices=TECHNOLOGY_KNOWN,blank=False,null=False)
+    technologies_known = models.CharField(max_length=15,choices=TECHNOLOGY_KNOWN)
     level_of_expertise = models.CharField(choices=TECHNOLOGY_LIST,
-        max_length=9,
-                
+        max_length=9,                
         )
     def __str__(self):
         return self.technologies_known
@@ -211,3 +211,12 @@ class Preference(models.Model):
 
     def __str__(self):
         return self.department
+    
+
+class StateCityMaster(models.Model):
+    city_id = models.IntegerField()
+    city_name = models.CharField(max_length=120)
+    city_state = models.CharField(max_length=120)
+
+    def __str__(self):
+        return self.city_name
