@@ -408,39 +408,33 @@ def updateEmployeeForm(request,id,step=1):
         if step==1:   
             form_data_key = f'step_{step}_data'      
             form = BasicDetailsForm(request.POST)
-            print("my post form ",request.POST)
+            
             if form.is_valid():
                 basic_details = form.cleaned_data               
                 basic_details['date_of_birth'] = basic_details['date_of_birth'].isoformat()
                 request.session[form_data_key] = basic_details
-                # print("STEP VALUE *****************************************************************************************",step)
+                
                 education_formset = modelformset_factory(model=SSCHSCDETAILS,form = EducationDetailsForm,extra=0)   
                 form= education_formset(queryset=SSCHSCDETAILS.objects.filter(employee_id_id = id))
                 step=2                
         elif step==2:            
-            # form = EducationDetailsForm(request.POST)
+            
             education_formset = modelformset_factory(model=SSCHSCDETAILS,form = EducationDetailsForm,extra=0)   
             form = education_formset(request.POST)
             form_data_key = f'step_{step}_data'
             if 'next' in request.POST:
                 if form.is_valid():
-                    educaitonData = []
-                    # print(dict(request.POST)['form-0-name_of_board'],"shgbfduiashfiusdgsdufgjusfdhgbbfds")
-                    for x in range(len(dict(request.POST)['form-0-name_of_board'])):
+                    educaitonData = []                   
+                    for x in range(len(dict(request.POST)['form-TOTAL_FORMS'])):
                         educaitonData.append({
                             'name_of_board' : dict(request.POST)['form-'+str(x)+'-name_of_board'][x],
                             'passing_year':dict(request.POST)['form-'+str(x)+'-passing_year'][x],
                             'percentage':dict(request.POST)['form-'+str(x)+'-percentage'][x]
                         })
                     education_details = form.cleaned_data
-                    form_data_key=form.cleaned_data
-                    print("********************************************************************",educaitonData)
-                    print("*********************************************************************",education_details)                        
-                    print(form.data, "FORM data ===")
-                    print("\n \n")
-                    print("recived data", request.POST)
-                
-                    print(form.errors,'siudfiiodfgioiofdgo')                                 
+                    request.session[form_data_key]=educaitonData
+                    
+                                                  
                     workExperienceFormset = modelformset_factory(model=WorkExperience,form = WorkExperienceForm,extra=0)   
                     form = workExperienceFormset(queryset=WorkExperience.objects.filter(employee_id_id = id))
                     step=3
@@ -451,23 +445,24 @@ def updateEmployeeForm(request,id,step=1):
                 step=1
                 
         elif step==3:
-            form=WorkExperienceForm(request.POST)
+            experience_formset = modelformset_factory(model=WorkExperience,form = WorkExperienceForm,extra=0)   
+            form = experience_formset(request.POST)
             form_data_key = f'step_{step}_data'
-        
+           
             if 'next' in request.POST:
                 if form.is_valid():
                     # work_experience_details = form.cleaned_data                  
                     experienceData = []
-                    for x in range(len(dict(request.POST)['company_name'])):
+                    
+                    for x in range(len(dict(request.POST)['form-TOTAL_FORMS'])):
                         experienceData.append({
-                            'company_name' : dict(request.POST)['company_name'][x],
-                            'designation':dict(request.POST)['designation'][x],
-                            'from1':dict(request.POST)['from1'][x],                            
-                            'to1':dict(request.POST)['to1'][x],                       
+                            'company_name' : dict(request.POST)['form-'+str(x)+'-company_name'][x],
+                            'designation':dict(request.POST)['form-'+str(x)+'-designation'][x],
+                            'from1':dict(request.POST)['form-'+str(x)+'-from1'][x],                            
+                            'to1':dict(request.POST)['form-'+str(x)+'-to1'][x],                       
                         })                   
 
-                    request.session[form_data_key]=experienceData
-                else:
+                    request.session[form_data_key]=experienceData                    
                     languageKnownSet = modelformset_factory(model=LanguageKnown,form = LanguagesForm,extra=0)   
                     form = languageKnownSet(queryset=LanguageKnown.objects.filter(employee_id_id = id))
                     step=4
@@ -478,14 +473,27 @@ def updateEmployeeForm(request,id,step=1):
                 form = EducationDetailsForm(initial=form_data)                             
                 step=2
         elif step==4:
-            form=LanguageKnownFormSet()
+            formset = formset_factory(LanguagesForm, formset=LanguageKnownFormSet)
+            data = {
+              "form-TOTAL_FORMS": "0",
+              "form-INITIAL_FORMS": "3",              
+                }
+            form = formset(data)
+           
             form_data_key = f'step_{step}_data'
+            print(form_data_key,"GETTED")
             if 'next' in request.POST:
-                if form.is_valid():               
-                    request.session[form_data_key]=form.cleaned_data 
-                    
-                else:                  
-                    techchnologyFormset = modelformset_factory(model=TechnologiesKnown,form = TechnologiesForm,extra=0)   
+                if form.is_valid():  
+                    formData = formset(request.POST)
+                    print("*****************************************************")
+                    # print(request.POST)
+                    # print(formData.cleaned_data,"i am cleaned")    
+                    # mydata =  formData.cleaned_data  
+                    # print(mydata) 
+                    # import json
+                    # request.session[form_data_key]=json.dumps(mydata[0])    
+                              
+                    techchnologyFormset = modelformset_factory(model=TechnologiesKnown,form = TechnologiesForm,extra=0)  
                     form = techchnologyFormset(queryset=TechnologiesKnown.objects.filter(employee_id_id = id))
                     step=5
             elif 'previous' in request.POST:
@@ -494,14 +502,21 @@ def updateEmployeeForm(request,id,step=1):
                 form = WorkExperienceForm(initial=form_data)                             
                 step=3
         elif step==5:
-            form=TechnologyKnownFormSet()
+            formset = formset_factory(TechnologiesForm, formset=TechnologyKnownFormSet)
+            data = {
+              "form-TOTAL_FORMS": "0",
+              "form-INITIAL_FORMS": "4",              
+                }
+            form = formset(data)
             form_data_key = f'step_{step}_data'
-            print(form.errors)
+            
             if 'next' in request.POST:
                 
                 if form.is_valid():                    
-                    request.session[form_data_key]=form.cleaned_data
-                else:
+                    formData = formset(request.POST)
+                    # print(form(request.POST))
+                    print(formData.cleaned_data,"i am cleaned")          
+                    # request.session[form_data_key]=formData.cleaned_data                 
                     referenceFormset = modelformset_factory(model=Reference,form = ReferenceForm,extra=0)   
                     form = referenceFormset(queryset=Reference.objects.filter(employee_id_id = id))
                     step=6
@@ -511,24 +526,26 @@ def updateEmployeeForm(request,id,step=1):
               "form-TOTAL_FORMS": "3",
               "form-INITIAL_FORMS": "0",              
                 }
-                form = formset(data)
-                # form = LanguageKnownFormSet()
+                form = formset(data)               
                 step=4
         elif step==6:
-            form=ReferenceForm(request.POST)
+            reference_formset = modelformset_factory(model=Reference,form = ReferenceForm,extra=0)   
+            form = reference_formset(request.POST)
             form_data_key = f'step_{step}_data'
+                     
+            
             if 'next' in request.POST:
                 if form.is_valid():
-                    print(form.cleaned_data)
-                    referenceData = []
-                    for x in range(len(dict(request.POST)['name'])):
+                    
+                    referenceData = []                   
+                    for x in range(len(dict(request.POST)['form-TOTAL_FORMS'])):
                         referenceData.append({
-                            'name' : dict(request.POST)['name'][x],
-                            'contact_no':dict(request.POST)['contact_no'][x],
-                            'Relation':dict(request.POST)['Relation'][x],                                              
-                        })
-                    request.session[form_data_key]=referenceData
-                else:
+                            'name' : dict(request.POST)['form-'+str(x)+'-name'][x],
+                            'contact_no':dict(request.POST)['form-'+str(x)+'-contact_no'][x],
+                            'Relation':dict(request.POST)['form-'+str(x)+'-Relation'][x]
+                        })                        
+                    request.session[form_data_key]=referenceData                
+                    
                     form_data = get_object_or_404(Preference,employee_id_id=id)               
                     form = PreferenceTableForm(instance=form_data)
                     
