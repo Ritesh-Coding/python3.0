@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'job_app_form.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jobappfinal',
+        'NAME': 'jobappfinal1',
         'USER': 'postgres',
-        'PASSWORD':'password',
+        'PASSWORD':'password123',
         'HOST':'localhost',
         'PORT':'5432'
     }

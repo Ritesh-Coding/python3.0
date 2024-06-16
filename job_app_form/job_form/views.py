@@ -432,8 +432,7 @@ def updateEmployeeForm(request,id,step=1):
                             'percentage':dict(request.POST)['form-'+str(x)+'-percentage'][x]
                         })
                     education_details = form.cleaned_data
-                    request.session[form_data_key]=educaitonData
-                    
+                    request.session[form_data_key]=educaitonData                   
                                                   
                     workExperienceFormset = modelformset_factory(model=WorkExperience,form = WorkExperienceForm,extra=0)   
                     form = workExperienceFormset(queryset=WorkExperience.objects.filter(employee_id_id = id))
@@ -450,8 +449,7 @@ def updateEmployeeForm(request,id,step=1):
             form_data_key = f'step_{step}_data'
            
             if 'next' in request.POST:
-                if form.is_valid():
-                    # work_experience_details = form.cleaned_data                  
+                if form.is_valid():                                      
                     experienceData = []
                     
                     for x in range(len(dict(request.POST)['form-TOTAL_FORMS'])):
@@ -460,7 +458,7 @@ def updateEmployeeForm(request,id,step=1):
                             'designation':dict(request.POST)['form-'+str(x)+'-designation'][x],
                             'from1':dict(request.POST)['form-'+str(x)+'-from1'][x],                            
                             'to1':dict(request.POST)['form-'+str(x)+'-to1'][x],                       
-                        })                   
+                        })                 
 
                     request.session[form_data_key]=experienceData                    
                     languageKnownSet = modelformset_factory(model=LanguageKnown,form = LanguagesForm,extra=0)   
@@ -477,11 +475,9 @@ def updateEmployeeForm(request,id,step=1):
             data = {
               "form-TOTAL_FORMS": "0",
               "form-INITIAL_FORMS": "3",              
-                }
-            form = formset(data)
-           
-            form_data_key = f'step_{step}_data'
-            print(form_data_key,"GETTED")
+                  }
+            form = formset(data)           
+            form_data_key = f'step_{step}_data'            
             if 'next' in request.POST:
                 if form.is_valid():  
                     formData = formset(request.POST)
@@ -502,27 +498,30 @@ def updateEmployeeForm(request,id,step=1):
                 form = WorkExperienceForm(initial=form_data)                             
                 step=3
         elif step==5:
-            formset = formset_factory(TechnologiesForm, formset=TechnologyKnownFormSet)
-            data = {
-              "form-TOTAL_FORMS": "0",
-              "form-INITIAL_FORMS": "4",              
-                }
-            form = formset(data)
-            form_data_key = f'step_{step}_data'
+            form=TechnologyKnownFormSet(request.POST)
             
+            form_data_key = f'step_55_data'
+            print(form_data_key,"bhaii bhaii")
             if 'next' in request.POST:
                 
                 if form.is_valid():                    
-                    formData = formset(request.POST)
+                    formData = form
                     # print(form(request.POST))
-                    print(formData.cleaned_data,"i am cleaned")          
-                    # request.session[form_data_key]=formData.cleaned_data                 
+                    cleaned_data = formData.cleaned_data
+                     # Convert TechnologiesKnown objects to dictionaries
+                    technologyKnown=[]
+                    for item in cleaned_data:
+                        item = {'technologies_known': item['id'].technologies_known, 'level_of_expertise': item['id'].level_of_expertise}
+                        technologyKnown.append(item)
+                    request.session[form_data_key]=technologyKnown 
+                    print(request.session.get('step_55_data'), "i am cleaned bhai")                
                     referenceFormset = modelformset_factory(model=Reference,form = ReferenceForm,extra=0)   
                     form = referenceFormset(queryset=Reference.objects.filter(employee_id_id = id))
                     step=6
             elif 'previous' in request.POST:
                 formset = formset_factory(LanguagesForm, formset=LanguageKnownFormSet)
                 data = {
+                    
               "form-TOTAL_FORMS": "3",
               "form-INITIAL_FORMS": "0",              
                 }
@@ -568,6 +567,8 @@ def updateEmployeeForm(request,id,step=1):
                 form=ReferenceForm(initial=form_data)  
                 step=6
             elif 'submit' in request.POST:
+                def dict_to_technologies_known(data):
+                    return TechnologiesKnown(technologies_known=data['technologies_known'], level_of_expertise=data['level_of_expertise'])
                 if form.is_valid():
                     
                     request.session[form_data_key]=form.cleaned_data
@@ -575,7 +576,7 @@ def updateEmployeeForm(request,id,step=1):
                     education_details = request.session.get('step_2_data', {}) 
                     work_experience_details = request.session.get('step_3_data',{})
                     language_known_details = request.session.get('step_4_data',{})
-                    technology_known_details = request.session.get('step_5_data',{})
+                    technology_known_details = request.session.get('step_55_data',{})
                     reference_details = request.session.get('step_6_data',{})
                     preference_data = request.session.get('step_7_data',{})
                     print(basic_details)                   
@@ -593,7 +594,8 @@ def updateEmployeeForm(request,id,step=1):
                         WorkExperience.objects.create(**item,employee_id= basic_obj)
                     for item in language_known_details:
                         if len(item)!=0:
-                            LanguageKnown.objects.create(**item,employee_id = basic_obj)
+                            LanguageKnown.objects.create(**item,employee_id = basic_obj)                         
+                            
                     for item in technology_known_details:
                         if len(item)!=0:
                             TechnologiesKnown.objects.create(**item,employee_id = basic_obj )
