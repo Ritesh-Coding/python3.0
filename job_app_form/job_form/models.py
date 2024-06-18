@@ -36,6 +36,11 @@ def validate_zip(value):
         raise ValidationError(
             ('zip is not valid')
         )
+    
+STATES_NAME = (
+     ("Hariyana","Hariyana"),
+     ("Goa","Goa") 
+)
 class BasicDetails(models.Model):
      user = models.ForeignKey(
          settings.AUTH_USER_MODEL,on_delete=models.RESTRICT,default=1
@@ -70,7 +75,7 @@ class BasicDetails(models.Model):
      phone =  models.CharField(blank=False,null=False,validators=[validate_phone])
      gender = models.CharField(max_length=6,choices=GENDER_CHOICES,blank=False,null=False)
      cities = models.CharField(max_length=20,null=True,blank=True)
-     states = models.CharField(max_length=25,blank=False,null=False)
+     states = models.CharField(choices=STATES_NAME, max_length=25,blank=False,null=False)
      zip = models.CharField(blank=False,null=False,validators=[validate_zip])
      relationship = models.CharField(max_length=8,choices=RELATIONSHIP_STATUS,blank=False,null=False)
      date_of_birth= models.DateField(null=False,blank=False,
@@ -147,7 +152,7 @@ LANGUAGE_CHOICES = (
 )
 class LanguageKnown(models.Model):
     employee_id= models.ForeignKey(BasicDetails,on_delete=models.CASCADE)
-    language_known = models.CharField(max_length=15,choices=LANGUAGE_CHOICES)
+    language_known = models.CharField(max_length=15,null=True,blank=True,choices=LANGUAGE_CHOICES)
     can_read = models.BooleanField(default=False)
     can_write= models.BooleanField(default=False)
     can_speak = models.BooleanField(default=False)

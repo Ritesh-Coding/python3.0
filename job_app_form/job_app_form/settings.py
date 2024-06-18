@@ -86,9 +86,9 @@ WSGI_APPLICATION = 'job_app_form.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'jobappfinal1',
+        'NAME': 'jobappfinal',
         'USER': 'postgres',
-        'PASSWORD':'password123',
+        'PASSWORD':'password',
         'HOST':'localhost',
         'PORT':'5432'
     }
@@ -143,3 +143,26 @@ STATICFILES_DIRS=[
 
 
 AUTH_USER_MODEL = 'job_form.CustomUser'
+
+
+# LOGGING = {
+#     'version': 1,
+#     'filters': {
+#         'require_debug_true': {
+#             '()': 'django.utils.log.RequireDebugTrue',
+#         }
+#     },
+#     'handlers': {
+#         'console': {
+#             'level': 'DEBUG',
+#             'filters': ['require_debug_true'],
+#             'class': 'logging.StreamHandler',
+#         }
+#     },
+#     'loggers': {
+#         'django.db.backends': {
+#             'level': 'DEBUG',
+#             'handlers': ['console'],
+#         }
+#     }
+# }

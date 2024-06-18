@@ -136,11 +136,13 @@ class LanguagesForm(forms.ModelForm):
     class Meta:
         model = LanguageKnown
         fields = [
+            
             'language_known',
             'can_read',
             'can_write',
             'can_speak'
         ]
+        
     def clean(self):
         cleaned_data = super().clean()
         language_known = cleaned_data.get('language_known')
