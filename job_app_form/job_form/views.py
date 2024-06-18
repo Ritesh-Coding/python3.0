@@ -461,34 +461,31 @@ def updateEmployeeForm(request,id,step=1):
                         })                 
 
                     request.session[form_data_key]=experienceData                    
-                    languageKnownSet = modelformset_factory(model=LanguageKnown,form = LanguagesForm,extra=0)   
-                    form = languageKnownSet(queryset=LanguageKnown.objects.filter(employee_id_id = id))
+                    LanguageFormSet = modelformset_factory(LanguageKnown, form=LanguagesForm, extra=0)
+                    # form = LanguageKnown.objects.filter(employee_id_id = id).values()
+                    
+                    form = LanguageFormSet(queryset=LanguageKnown.objects.filter(employee_id_id=id))              
+        
+                    print(form,"***************************************************")
                     step=4
             elif 'previous' in request.POST:
-                form_data_key = f'step_{step-1}_data'
+                form_data_key = f'step_{step-1}_data' 
                 form_data = request.session.get(form_data_key, {})
                 
                 form = EducationDetailsForm(initial=form_data)                             
                 step=2
         elif step==4:
-            formset = formset_factory(LanguagesForm, formset=LanguageKnownFormSet)
-            data = {
-              "form-TOTAL_FORMS": "0",
-              "form-INITIAL_FORMS": "3",              
-                  }
-            form = formset(data)           
+            LanguageFormSet = modelformset_factory(LanguageKnown, form=LanguagesForm, extra=0)
             form_data_key = f'step_{step}_data'            
             if 'next' in request.POST:
-                if form.is_valid():  
-                    formData = formset(request.POST)
-                    print("*****************************************************")
-                    # print(request.POST)
-                    # print(formData.cleaned_data,"i am cleaned")    
-                    # mydata =  formData.cleaned_data  
-                    # print(mydata) 
-                    # import json
-                    # request.session[form_data_key]=json.dumps(mydata[0])    
-                              
+                formset = LanguageFormSet(request.POST, queryset=LanguageKnown.objects.filter(employee_id_id=id))
+                print("not valid")
+                if formset.is_valid():                     
+                    print(" i am valid")
+                    request.session[form_data_key] = request.POST
+            # Save form data to session    
+                else:
+                    print(formset.errors)            
                     techchnologyFormset = modelformset_factory(model=TechnologiesKnown,form = TechnologiesForm,extra=0)  
                     form = techchnologyFormset(queryset=TechnologiesKnown.objects.filter(employee_id_id = id))
                     step=5

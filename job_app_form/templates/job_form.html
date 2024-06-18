@@ -248,7 +248,15 @@
             <legend>Language Known</legend>
             {{ form.management_form }}
             {%if updateForm %}
-            {{form.as_p}}
+
+        {% for language in form %}
+                {{language.id}}
+                {{ language.language_known }} - 
+                Read: {{ language.can_read }} | 
+                Write: {{ language.can_write }} | 
+                Speak: {{ language.can_speak }}
+           
+        {% endfor %}
             {%else%}
             
             {% for form in form %}
